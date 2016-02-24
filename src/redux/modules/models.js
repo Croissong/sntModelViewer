@@ -1,43 +1,49 @@
-/* @flow */
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const FETCH_MODELS = 'FETCH_MODELS';
 // ------------------------------------
 // Actions
 // ------------------------------------
-// NOTE: "Action" is a Flow interface defined in https://github.com/TechnologyAdvice/flow-interfaces
-// If you're unfamiliar with Flow, you are completely welcome to avoid annotating your code, but
-// if you'd like to learn more you can check out: flowtype.org.
-export const fetchModels = () => ({
-  type: FETCH_MODELS
-});
+const REQUEST_MODELS = 'REQUEST_MODELS';
+function requestModels () {
+  return {
+    type: REQUEST_MODELS
+  };
+}
+
+const RECEIVE_MODELS = 'RECEIVE_MODELS';
+function receiveModels (models) {
+  return {
+    type: RECEIVE_MODELS,
+    models,
+    receivedA: new Date().toLocaleString()
+  };
+}
+
+export function fetchModels () {
+  return function (dispatch) {
+    dispatch(requestModels());
+    return fetch('http://localhost:3005/models')
+       .then(response => response.json())
+       .then(json =>
+         dispatch(receiveModels(json))
+       );
+  };
+}
 
 export const actions = {
-  fetchModels
+  requestModels
 };
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [FETCH_MODELS]: (state, action) => {
-    fetch(url, myInit)
-       .then((response) => {
-         return response.json();
-       }).then((json) => {
-         json = JSON.stringify(json);
-         console.log(json);
-         return json;
-       });
-  }
+  [REQUEST_MODELS]: (state, action) => state,
+  [RECEIVE_MODELS]: (state, action) => action.models
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {};
-export default function counterReducer (state = initialState, action) {
+export default function modelsReducer (state = [], action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

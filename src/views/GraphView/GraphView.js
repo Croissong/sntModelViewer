@@ -1,29 +1,58 @@
 /* @flow */
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { fetchModels } from '../../redux/modules/models';
+import { actions as modeldefsActions, fetchModeldefs } from '../../redux/modules/modeldefs';
 import ModelViewer from 'components/ModelViewer';
-import Rest from 'components/Rest';
-// We can use Flow (http://flowtype.org/) to type our component's props
-// and state. For convenience we've included both regular propTypes and
-// Flow types, but if you want to try just using Flow you'll want to
-// disable the eslint rule `react/prop-types`.
-// NOTE: You can run `npm run flow:check` to check for any errors in your
-// code, or `npm i -g flow-bin` to have access to the binary globally.
-// Sorry Windows users :(.
-type Props = {
-};
+import ModelSelection from 'components/ModelSelection';
 
 // We avoid using the `@connect` decorator on the class definition so
 // that we can export the undecorated component for testing.
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
-export default class GraphView extends React.Component<void, Props, void> {
+export class GraphView extends React.Component<void, void, void> {
+
+  static propTypes = {
+    modeldefs: PropTypes.object.isRequired,
+    models: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fetchModeldefs: PropTypes.func.isRequired,
+    selectModeldef: PropTypes.func.isRequired
+  };
 
   render () {
     return (
       <div className='container'>
-        <ModelViewer models={[]}/>
-        <Rest/>
+        <ModelSelection
+          modeldefs={this.props.modeldefs}
+          fetchModeldefs={this.props.fetchModeldefs}
+          selectModeldef={this.props.selectModeldef}
+        />
+        <ModelViewer
+          models={this.props.models}
+        />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    models: state.models,
+    modeldefs: state.modeldefs
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchModeldefs: () => dispatch(fetchModeldefs()),
+    selectModeldef: (id) => {
+      dispatch(modeldefsActions.selectModeldef(id));
+      dispatch(fetchModels(id));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GraphView);
 

@@ -1,9 +1,9 @@
 /* @flow */
-import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { increment, doubleAsync } from '../../redux/modules/counter'
-import DuckImage from './Duck.jpg'
-import classes from './HomeView.scss'
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { actions } from '../../redux/modules/counter';
+import DuckImage from './Duck.jpg';
+import classes from './HomeView.scss';
 
 // We can use Flow (http://flowtype.org/) to type our component's props
 // and state. For convenience we've included both regular propTypes and
@@ -33,7 +33,8 @@ export class HomeView extends React.Component<void, Props, void> {
       <div className='container text-center'>
         <div className='row'>
           <div className='col-xs-2 col-xs-offset-5'>
-            <img className={classes.duck}
+            <img
+              className={classes.duck}
               src={DuckImage}
               alt='This is a duck, because Redux.' />
           </div>
@@ -52,14 +53,24 @@ export class HomeView extends React.Component<void, Props, void> {
           Double (Async)
         </button>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
-  counter: state.counter
-})
-export default connect((mapStateToProps), {
-  increment: () => increment(1),
-  doubleAsync
-})(HomeView)
+const mapStateToProps = (state) => {
+  return {
+    counter: state.counter
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    increment: () => dispatch(actions.increment()),
+    doubleAsync: () => dispatch(actions.doubleAsync())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeView);

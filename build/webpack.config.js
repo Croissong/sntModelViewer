@@ -136,10 +136,10 @@ webpackConfig.module.loaders = [{
     }
   }
 },
-{
-  test: /\.json$/,
-  loader: 'json'
-}];
+                                {
+                                  test: /\.json$/,
+                                  loader: 'json'
+                                }];
 
 // ------------------------------------
 // Style Loaders
@@ -250,29 +250,29 @@ webpackConfig.module.loaders.push(
   { test: /\.svg(\?.*)?$/,   loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=image/svg+xml' },
   { test: /\.(png|jpg)$/,    loader: 'url?limit=8192' }
 )
-/* eslint-enable */
+  /* eslint-enable */
 
-// ------------------------------------
-// Finalize Configuration
-// ------------------------------------
-// when we don't know the public path (we know it only when HMR is enabled [in development]) we
-// need to use the extractTextPlugin to fix this issue:
-// http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
-if (!__DEV__) {
-  debug('Apply ExtractTextPlugin to CSS loaders.');
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-  ).forEach((loader) => {
-    const [first, ...rest] = loader.loaders;
-    loader.loader = ExtractTextPlugin.extract(first, rest.join('!'));
-    delete loader.loaders;
-  });
+  // ------------------------------------
+  // Finalize Configuration
+  // ------------------------------------
+  // when we don't know the public path (we know it only when HMR is enabled [in development]) we
+  // need to use the extractTextPlugin to fix this issue:
+  // http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
+  if (!__DEV__) {
+    debug('Apply ExtractTextPlugin to CSS loaders.');
+    webpackConfig.module.loaders.filter((loader) =>
+      loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+    ).forEach((loader) => {
+      const [first, ...rest] = loader.loaders;
+      loader.loader = ExtractTextPlugin.extract(first, rest.join('!'));
+      delete loader.loaders;
+    });
 
-  webpackConfig.plugins.push(
-    new ExtractTextPlugin('[name].[contenthash].css', {
-      allChunks: true
-    })
-  );
-}
+    webpackConfig.plugins.push(
+      new ExtractTextPlugin('[name].[contenthash].css', {
+        allChunks: true
+      })
+    );
+  }
 
 export default webpackConfig;
