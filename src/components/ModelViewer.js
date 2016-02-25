@@ -1,11 +1,16 @@
 import React, { PropTypes } from 'react';
 import {Table, Tr, Td, Thead, Th} from 'reactable';
+import EditColumn  from 'editModelColumn';
 
 export default class ModelViewer extends React.Component<void, void, void> {
 
   static propTypes = {
     models: PropTypes.arrayOf(React.PropTypes.object).isRequired,
     editModel: PropTypes.function.isRequired
+  }
+
+  editModel = (id) => {
+    
   }
 
   render () {
@@ -29,9 +34,10 @@ export default class ModelViewer extends React.Component<void, void, void> {
           </Thead>
           {models.map(model =>
             <Tr key={model.id} data={model}>
-              <Td key={model.id} column=''>
-                <button key={model.id} type='button' onClick={this.props.editModel.bind(this, model.id)}> Edit Model </button>
-              </Td>
+              <EditColumn
+                modelId={model.id}
+                editModel={this.editModel}
+              />
             </Tr>
            )}
         </Table>
