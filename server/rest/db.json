@@ -1,33 +1,82 @@
 {
   "models": [
     {
-      "Name": "Griffin Smith",
-      "Age": 18
+      "id": 1,
+      "models": [
+          {
+              "id": 1,
+              "Name": "Griffin Smith",
+              "Age": 18
+          },
+          {
+              "id": 2,
+              "Age": 23,
+              "Name": "Lee Salminen"
+          },
+          {
+              "id": 3,
+              "Age": 28,
+              "Position": "Developer"
+          }
+      ]
     },
-    {
-      "Age": 23,
-      "Name": "Lee Salminen"
-    },
-    {
-      "Age": 28,
-      "Position": "Developer"
-    }
+      {
+          "id": 2,
+          "models": [
+              {
+                  "id": 1,
+                  "Name": "Hallo",
+                  "Age": 18
+              },
+              {
+                  "id": 2,
+                  "Age": 23,
+                  "Name": "lorem"
+              },
+              {
+                  "id": 3,
+                  "Age": 28,
+                  "Position": "ipsumr"
+              }
+          ]
+      },
+      {
+          "id": 3,
+          "models": [
+              {
+                  "id": 1,
+                  "Name": "pipapoh",
+                  "Age": 18
+              },
+              {
+                  "id": 2,
+                  "Age": 22,
+                  "Name": "tat�tata"
+              },
+              {
+                  "id": 3,
+                  ""
+                  "Age": 28,
+                  "Position": "frankreich"
+              }
+          ]
+      }
   ],
-  "modeldefs": [
-    {
-      "id": "model1",
-      "name": "Model1"
-    },
-    {
-      "id": "model2",
-      "name": "Model2"
-    },
-    {
-      "id": "model3",
-      "name": "Model3"
+    "modeldefs": [
+        {
+            "id": "1",
+            "name": "Model1"
+        },
+        {
+            "id": "2",
+            "name": "Model2"
+        },
+        {
+            "id": "3",
+            "name": "Model3"
+        }
+    ],
+    "profile": {
+        "name": "typicode"
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
 }

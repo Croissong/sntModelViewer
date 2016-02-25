@@ -1,30 +1,32 @@
 // ------------------------------------
 // Actions
 // ------------------------------------
-const REQUEST_MODELDEFS = 'REQUEST_MODELDEFS';
-function requestModeldefs () {
+
+const REQUEST_MODEL = 'REQUEST_MODEL';
+function requestModel () {
   return {
-    type: REQUEST_MODELDEFS
+    type: REQUEST_MODEL
   };
 }
-const RECEIVE_MODELDEFS = 'RECEIVE_MODELDEFS';
-function receiveModeldefs (defs) {
+const RECEIVE_MODEL = 'RECEIVE_MODEL';
+function receiveModel (model) {
   return {
-    type: RECEIVE_MODELDEFS,
-    defs,
+    type: RECEIVE_MODEL,
+    model,
     receivedA: new Date().toLocaleString()
   };
 }
 
-const SELECT_MODELDEF = 'SELECT_MODELDEF';
-function selectModeldef (id) {
+
+const EDIT_MODEL = 'EDIT_MODEL';
+function editModel (id) {
   return {
     type: SELECT_MODELDEF,
     id
   };
 }
 
-export function fetchModeldefs () {
+export function fetchModel () {
   return function (dispatch) {
     dispatch(requestModeldefs());
     return fetch('http://localhost:3005/modeldefs')
@@ -36,7 +38,7 @@ export function fetchModeldefs () {
 }
 
 export const actions = {
-  selectModeldef
+  editModel
 };
 
 // ------------------------------------
@@ -44,14 +46,14 @@ export const actions = {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SELECT_MODELDEF]: (state, action) => ({ ...state, selected: action.id }),
-  [RECEIVE_MODELDEFS]: (state, action) => ({ ...state, defs: action.defs })
+  [EDIT_MODEL]: (state, action) => ({ ...state, selected: action.id }),
+  [RECEIVE_MODEL]: (state, action) => ({ ...state, model: action.model }) 
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function modeldefsReducer (state = { selected: '', defs: [] }, action) {
+export default function modeldefsReducer (state = { selected: '', model: {} }, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;
