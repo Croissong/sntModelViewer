@@ -1,37 +1,32 @@
-/* @flow */
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchModels } from '../../redux/modules/models';
-import { actions as modeldefsActions, fetchModeldefs } from '../../redux/modules/modeldefs';
+import { actions as defSelectActions, fetchModeldefs } from 'redux/modules/modelDefSelection';
+import { fetchIndexedModels } from 'redux/modules/indexedModels';
 import ModelViewer from 'components/ModelViewer';
-import ModelSelection from 'components/ModelSelection';
+import ModelDefSelection from 'components/ModelDefSelection';
 
 // We avoid using the `@connect` decorator on the class definition so
 // that we can export the undecorated component for testing.
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
-export class GraphView extends React.Component<void, void, void> {
+export class GraphView extends React.Component {
 
   static propTypes = {
     modeldefs: PropTypes.object.isRequired,
-    models: PropTypes.object.isRequired,
     fetchModeldefs: PropTypes.func.isRequired,
     selectModeldef: PropTypes.func.isRequired,
-    fetchModels: PropTypes.func.isRequired
+    fetchIndexedModels: PropTypes.func.isRequired
   };
 
   render () {
     return (
       <div className='container'>
-        <ModelSelection
-          modeldefs={this.props.modeldefs.defs}
-          selected={this.props.modeldefs.selected}
+        <ModelDefSelection
+          modeldefs={this.props.modeldefs}
           fetchModeldefs={this.props.fetchModeldefs}
           selectModeldef={this.props.selectModeldef}
-          fetchModels={this.props.fetchModels}
+          fetchIndexedModels={this.props.fetchIndexedModels}
         />
-        <ModelViewer
-          models={this.props.models.models}
-        />
+        <ModelViewer/>
       </div>
     );
   }
@@ -39,16 +34,15 @@ export class GraphView extends React.Component<void, void, void> {
 
 const mapStateToProps = (state) => {
   return {
-    models: state.models,
-    modeldefs: state.modeldefs
+    modeldefs: state.modelSelection
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchModeldefs: () => dispatch(fetchModeldefs()),
-    selectModeldef: (id) => dispatch(modeldefsActions.selectModeldef(id)),
-    fetchModels: (id) => dispatch(fetchModels(id))
+    selectModeldef: (id) => dispatch(defSelectActions.selectModeldef(id)),
+    fetchIndexedModels: (modeldefId) => dispatch(fetchIndexedModels(modeldefId))
   };
 };
 

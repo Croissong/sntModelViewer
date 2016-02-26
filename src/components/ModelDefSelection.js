@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 
-export default class ModelSelection extends React.Component<void, void, void> {
+export default class ModelDefSelection extends React.Component {
+
   static propTypes = {
-    modeldefs: PropTypes.array.isRequired,
-    selected: PropTypes.string.isRequired,
+    modeldefs: PropTypes.object.isRequired,
     fetchModeldefs: PropTypes.func.isRequired,
     selectModeldef: PropTypes.func.isRequired,
     fetchModels: PropTypes.func.isRequired
@@ -21,8 +21,8 @@ export default class ModelSelection extends React.Component<void, void, void> {
   };
 
   render () {
-    let defs = this.props.modeldefs;
-    let selected = defs.filter(def => def.id === this.props.selected);
+    let defs = this.props.modeldefs.defs;
+    let selected = defs.filter(def => def.id === this.props.modeldefs.selected);
     return (
       <div>
         <select name='modeldefs' id='modeldefs' value={selected.name} onChange={this.select}>

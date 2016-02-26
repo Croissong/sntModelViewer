@@ -1,51 +1,51 @@
 // ------------------------------------
 // Actions
 // ------------------------------------
-const REQUEST_MODELS = 'REQUEST_MODELS';
-function requestModels (id) {
+const REQUEST_INDEXEDMODELS = 'REQUEST_INDEXEDMODELS';
+function requestIndexedModels (id) {
   return {
-    type: REQUEST_MODELS,
+    type: REQUEST_INDEXEDMODELS,
     id
   };
 }
 
-const RECEIVE_MODELS = 'RECEIVE_MODELS';
-function receiveModels (id, models) {
+const RECEIVE_INDEXEDMODELS = 'RECEIVE_INDEXEDMODELS';
+function receiveIndexedModels (id, models) {
   return {
-    type: RECEIVE_MODELS,
+    type: RECEIVE_INDEXEDMODELS,
     id,
     models,
     receivedA: new Date().toLocaleString()
   };
 }
 
-export function fetchModels (id) {
+export function fetchIndexedModels (id) {
   return function (dispatch) {
-    dispatch(requestModels(id));
+    dispatch(requestIndexedModels(id));
     return fetch('http://localhost:3005/models/' + id)
        .then(response => response.json())
        .then(json =>
-         dispatch(receiveModels(id, json))
+         dispatch(receiveIndexedModels(id, json))
        );
   };
 }
 
 export const actions = {
-  requestModels
+  requestIndexedModels
 };
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [REQUEST_MODELS]: (state, action) => state,
-  [RECEIVE_MODELS]: (state, action) => action.models
+  [REQUEST_INDEXEDMODELS]: (state, action) => state,
+  [RECEIVE_INDEXEDMODELS]: (state, action) => ({ ...state, models: action.models })
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function modelsReducer (state = {id: '', models: []}, action) {
+export default function indexedModelsReducer (state = [], action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

@@ -3,80 +3,80 @@
     {
       "id": 1,
       "models": [
-          {
-              "id": 1,
-              "Name": "Griffin Smith",
-              "Age": 18
-          },
-          {
-              "id": 2,
-              "Age": 23,
-              "Name": "Lee Salminen"
-          },
-          {
-              "id": 3,
-              "Age": 28,
-              "Position": "Developer"
-          }
+        {
+          "id": 1,
+          "Name": "Griffin Smith",
+          "Age": 18
+        },
+        {
+          "id": 2,
+          "Age": 23,
+          "Name": "Lee Salminen"
+        },
+        {
+          "id": 3,
+          "Age": 28,
+          "Position": "Developer"
+        }
       ]
     },
-      {
+    {
+      "id": 2,
+      "models": [
+        {
+          "id": 1,
+          "Name": "Hallo",
+          "Age": 18
+        },
+        {
           "id": 2,
-          "models": [
-              {
-                  "id": 1,
-                  "Name": "Hallo",
-                  "Age": 18
-              },
-              {
-                  "id": 2,
-                  "Age": 23,
-                  "Name": "lorem"
-              },
-              {
-                  "id": 3,
-                  "Age": 28,
-                  "Position": "ipsumr"
-              }
-          ]
-      },
-      {
+          "Age": 23,
+          "Name": "lorem"
+        },
+        {
           "id": 3,
-          "models": [
-              {
-                  "id": 1,
-                  "Name": "pipapoh",
-                  "Age": 18
-              },
-              {
-                  "id": 2,
-                  "Age": 22,
-                  "Name": "tat�tata"
-              },
-              {
-                  "id": 3,
-                  "Name": "test",
-                  "Age": 28,
-                  "Position": "frankreich"
-              }
-          ]
-      }
-  ],
-    "modeldefs": [
-        {
-            "id": "1",
-            "name": "Model1"
-        },
-        {
-            "id": "2",
-            "name": "Model2"
-        },
-        {
-            "id": "3",
-            "name": "Model3"
+          "Age": 28,
+          "Position": "ipsumr"
         }
-    ],
-    "profile": {
-        "name": "typicode"
+      ]
+    },
+    {
+      "id": 3,
+      "models": [
+        {
+          "id": 1,
+          "Name": "pipapoh",
+          "Age": 18
+        },
+        {
+          "id": 2,
+          "Age": 22,
+          "Name": "tat�tata"
+        },
+        {
+          "id": 3,
+          "Name": "test",
+          "Age": 28,
+          "Position": "frankreich"
+        }
+      ]
     }
+  ],
+  "modeldefs": [
+    {
+      "id": "1",
+      "name": "Model1"
+    },
+    {
+      "id": "2",
+      "name": "Model2"
+    },
+    {
+      "id": "3",
+      "name": "Model3"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }

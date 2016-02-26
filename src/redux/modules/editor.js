@@ -17,22 +17,21 @@ function receiveModel (model) {
   };
 }
 
-
 const EDIT_MODEL = 'EDIT_MODEL';
 function editModel (id) {
   return {
-    type: SELECT_MODELDEF,
+    type: EDIT_MODEL,
     id
   };
 }
 
-export function fetchModel () {
+export function fetchModel (id) {
   return function (dispatch) {
-    dispatch(requestModeldefs());
+    dispatch(requestModel(id));
     return fetch('http://localhost:3005/modeldefs')
        .then(response => response.json())
        .then(json =>
-         dispatch(receiveModeldefs(json))
+         dispatch(receiveModel(json))
        );
   };
 }
@@ -47,7 +46,7 @@ export const actions = {
 
 const ACTION_HANDLERS = {
   [EDIT_MODEL]: (state, action) => ({ ...state, selected: action.id }),
-  [RECEIVE_MODEL]: (state, action) => ({ ...state, model: action.model }) 
+  [RECEIVE_MODEL]: (state, action) => ({ ...state, model: action.model })
 };
 
 // ------------------------------------

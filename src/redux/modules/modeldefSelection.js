@@ -51,7 +51,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function modeldefsReducer (state = { selected: '', defs: [] }, action) {
+export default function modeldefSelectionReducer (state = { selected: '', defs: [] }, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

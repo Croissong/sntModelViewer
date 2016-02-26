@@ -1,47 +1,55 @@
 import React, { PropTypes } from 'react';
-import {Table, Tr, Td, Thead, Th} from 'reactable';
-import EditColumn  from 'editModelColumn';
+import { connect } from 'react-redux';
+import IndexedModelViewer from 'components/IndexedModelViewer';
+import ModelEditor from 'components/ModelEditor';
+import { actions as editorActions, fetchModel } from 'redux/modules/editor';
 
-export default class ModelViewer extends React.Component<void, void, void> {
+export default class ModelViewer extends React.Component {
 
   static propTypes = {
-    models: PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    editModel: PropTypes.function.isRequired
+    indexedModels: PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    editorState: PropTypes.object.isRequired,
+    editModel: PropTypes.func.isRequired,
+    fetchModel: PropTypes.func.isRequired
   }
 
   editModel = (id) => {
-    
+    this.props.editModel(id);
+    this.props.fetchModel(id);
   }
 
   render () {
-    let models = this.props.models;
+    let indexedModels = this.props.indexedModels;
+    let editorState = this.props.editorState;
+    let selectedModel = indexedModels.filter(model => model.id === editorState.selected);
     return (
       <div>
-        <Table className='table'>
-          <Thead>
-            <Th column='Name'>
-              <strong className='name-header'>First Name, Last Name</strong>
-            </Th>
-            <Th column='Age'>
-              <em className='age-header'>Age, years</em>
-            </Th>
-            <Th column='Position'>
-              <em className='age-header'>Position</em>
-            </Th>
-            <Th column=''>
-              <em className='age-header'></em>
-            </Th>
-          </Thead>
-          {models.map(model =>
-            <Tr key={model.id} data={model}>
-              <EditColumn
-                modelId={model.id}
-                editModel={this.editModel}
-              />
-            </Tr>
-           )}
-        </Table>
+        <IndexedModelViewer
+          models={indexedModels}
+          editModel={this.editModel}
+        />
+        <ModelEditor
+          model={selectedModel}
+        />
       </div>
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    indexedModels: state.indexedModels,
+    editorState: state.editor
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    editModel: (id) => dispatch(editorActions.editModel(id)),
+    fetchModel: (id) => dispatch(fetchModel(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModelViewer);
