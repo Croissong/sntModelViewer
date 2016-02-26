@@ -34,7 +34,7 @@ export class GraphView extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    modeldefs: state.modelSelection
+    modeldefs: state.modelDefSelection
   };
 };
 

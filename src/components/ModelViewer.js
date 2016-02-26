@@ -7,7 +7,7 @@ import { actions as editorActions, fetchModel } from 'redux/modules/editor';
 export default class ModelViewer extends React.Component {
 
   static propTypes = {
-    indexedModels: PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    indexedModels: PropTypes.object.isRequired,
     editorState: PropTypes.object.isRequired,
     editModel: PropTypes.func.isRequired,
     fetchModel: PropTypes.func.isRequired
@@ -19,14 +19,15 @@ export default class ModelViewer extends React.Component {
   }
 
   render () {
-    let indexedModels = this.props.indexedModels;
+    let models = this.props.indexedModels.models;
     let editorState = this.props.editorState;
-    let selectedModel = indexedModels.filter(model => model.id === editorState.selected);
+    let selectedModel = models.filter(model => model.id === editorState.selected)[0];
     return (
       <div>
         <IndexedModelViewer
-          models={indexedModels}
+          models={models}
           editModel={this.editModel}
+          fetchModel={this.props.fetchModel}
         />
         <ModelEditor
           model={selectedModel}

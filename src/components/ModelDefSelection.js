@@ -6,18 +6,18 @@ export default class ModelDefSelection extends React.Component {
     modeldefs: PropTypes.object.isRequired,
     fetchModeldefs: PropTypes.func.isRequired,
     selectModeldef: PropTypes.func.isRequired,
-    fetchModels: PropTypes.func.isRequired
+    fetchIndexedModels: PropTypes.func.isRequired
   }
   componentDidMount () {
     this.props.fetchModeldefs();
-    this.props.fetchModels('1');
+    this.props.fetchIndexedModels('1');
     this.props.selectModeldef('1');
   };
 
   select = (e) => {
     let id = e.target.value;
     this.props.selectModeldef(id);
-    this.props.fetchModels(id);
+    this.props.fetchIndexedModels(id);
   };
 
   render () {

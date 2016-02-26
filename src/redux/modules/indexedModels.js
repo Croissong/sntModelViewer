@@ -39,13 +39,13 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [REQUEST_INDEXEDMODELS]: (state, action) => state,
-  [RECEIVE_INDEXEDMODELS]: (state, action) => ({ ...state, models: action.models })
+  [RECEIVE_INDEXEDMODELS]: (state, action) => action.models 
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function indexedModelsReducer (state = [], action) {
+export default function indexedModelsReducer (state = {id: 0, models: []}, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;
