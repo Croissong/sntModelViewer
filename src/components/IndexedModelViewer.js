@@ -5,30 +5,24 @@ import EditButton from 'components/EditButton';
 export default class IndexedModelViewer extends React.Component {
 
   static propTypes = {
-    models: PropTypes.arrayOf(React.PropTypes.object).isRequired,
-    editModel: PropTypes.func.isRequired,
-    fetchModel: PropTypes.func.isRequired
-  }
-
-  editModel = (id) => {
-    this.props.editModel(id);
-    this.props.fetchModel(id);
+    models: PropTypes.object.isRequired,
+    editModel: PropTypes.func.isRequired
   }
 
   render () {
-    let models = this.props.models;
+    let models = this.props.models.value;
     return (
       <div>
         <Table className='table'>
           <Thead>
             <Th column='Name'>
-              <strong className='name-header'>First Name, Last Name</strong>
+              <strong>Name</strong>
             </Th>
             <Th column='Age'>
-              <em className='age-header'>Age, years</em>
+              <em>Age</em>
             </Th>
             <Th column='Position'>
-              <em className='age-header'>Position</em>
+              <em>Position</em>
             </Th>
             <Th column=''>
               <em className='age-header'></em>
@@ -38,8 +32,8 @@ export default class IndexedModelViewer extends React.Component {
             <Tr key={model.id} data={model}>
               <Td key={model.id} column=''>
                 <EditButton
-                  modelId={model.id}
-                  editModel={this.editModel}
+                    modelId={model.id}
+                    editModel={this.editModel}
                 />
               </Td>
             </Tr>

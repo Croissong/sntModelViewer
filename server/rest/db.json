@@ -1,82 +1,93 @@
 {
-  "models": [
-    {
-      "id": 1,
-      "models": [
+    "modeldefs": [
         {
-          "id": 1,
-          "Name": "Griffin Smith",
-          "Age": 18
+            "id": "1",
+            "name": "Model1"
         },
         {
-          "id": 2,
-          "Age": 23,
-          "Name": "Lee Salminen"
+            "id": "2",
+            "name": "Model2"
         },
         {
-          "id": 3,
-          "Age": 28,
-          "Position": "Developer"
+            "id": "3",
+            "name": "Model3"
         }
-      ]
-    },
-    {
-      "id": 2,
-      "models": [
+    ],
+    
+    "models": [
         {
-          "id": 1,
-          "Name": "Hallo",
-          "Age": 18
+            "id": "ModelDef1",
+            "models": [
+                {
+                    "id": 1,
+                    "name": "Model1",
+                    "indexedField": 18,
+                    "field1": "string"
+                },
+                {
+                    "id": 2,
+                    "name": "Model2",
+                    "indexedField": 19,
+                    "field1": 1
+                },
+                {
+                    "id": 2,
+                    "name": "Model3",
+                    "indexedField": 20,
+                    "field1": false
+                }
+            ]
         },
+        
         {
-          "id": 2,
-          "Age": 23,
-          "Name": "lorem"
+            "id": "ModelDef2",
+            "models": [
+                {
+                    "id": 1,
+                    "name": "Model1",
+                    "indexedField": 18,
+                    "field1": "string"
+                },
+                {
+                    "id": 2,
+                    "name": "Model2",
+                    "indexedField": 19,
+                    "field1": 1
+                },
+                {
+                    "id": 2,
+                    "name": "Model3",
+                    "indexedField": 20,
+                    "field1": false
+                }
+            ]
         },
+        
         {
-          "id": 3,
-          "Age": 28,
-          "Position": "ipsumr"
+            "id": "ModelDef3",
+            "models": [
+                {
+                    "id": 1,
+                    "name": "Model1",
+                    "indexedField": 18,
+                    "field1": "string"
+                },
+                {
+                    "id": 2,
+                    "name": "Model2",
+                    "indexedField": 19,
+                    "field1": 1
+                },
+                {
+                    "id": 2,
+                    "name": "Model3",
+                    "indexedField": 20,
+                    "field1": false
+                }
+            ]
         }
-      ]
-    },
-    {
-      "id": 3,
-      "models": [
-        {
-          "id": 1,
-          "Name": "pipapoh",
-          "Age": 18
-        },
-        {
-          "id": 2,
-          "Age": 22,
-          "Name": "tat�tata"
-        },
-        {
-          "id": 3,
-          "Name": "test",
-          "Age": 28,
-          "Position": "frankreich"
-        }
-      ]
+    ],
+    "profile": {
+        "name": "typicode"
     }
-  ],
-  "modeldefs": [
-    {
-      "id": "1",
-      "name": "Model1"
-    },
-    {
-      "id": "2",
-      "name": "Model2"
-    },
-    {
-      "id": "3",
-      "name": "Model3"
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
 }
