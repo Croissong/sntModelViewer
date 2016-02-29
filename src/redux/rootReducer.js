@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
-import indexedModels from './modules/indexedModels';
-import modelDefSelection from './modules/modelDefSelection';
-import editor from './modules/editor';
+import models from './modules/models';
+import modelDefs from './modules/modelDefs';
 
 export default combineReducers({
-  modelDefSelection,
-  indexedModels,
-  editor,
+  modelDefs,
+  models,
   router
 });

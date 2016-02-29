@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import {Table, Td, Tr, Thead, Th} from 'reactable';
+import { Table, Td, Tr } from 'reactable';
 import EditButton from 'components/EditButton';
 
 export default class IndexedModelViewer extends React.Component {
@@ -10,34 +10,23 @@ export default class IndexedModelViewer extends React.Component {
   }
 
   render () {
-    let models = this.props.models.value;
+    let models = this.props.models.indexedModels;
     return (
       <div>
         <Table className='table'>
-          <Thead>
-            <Th column='Name'>
-              <strong>Name</strong>
-            </Th>
-            <Th column='Age'>
-              <em>Age</em>
-            </Th>
-            <Th column='Position'>
-              <em>Position</em>
-            </Th>
-            <Th column=''>
-              <em className='age-header'></em>
-            </Th>
-          </Thead>
-          {models.map(model =>
-            <Tr key={model.id} data={model}>
-              <Td key={model.id} column=''>
-                <EditButton
-                    modelId={model.id}
-                    editModel={this.editModel}
-                />
-              </Td>
-            </Tr>
-           )}
+          {Object.keys(models).map(i => {
+             let model = models[i];
+             return (
+               <Tr key={model.id} data={model}>
+                 <Td key={model.id} column=''>
+                   <EditButton
+                     modelId={model.id}
+                     editModel={this.props.editModel}
+                   />
+                 </Td>
+               </Tr>
+             );
+           })}
         </Table>
       </div>
     );

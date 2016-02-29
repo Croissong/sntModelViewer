@@ -45,7 +45,7 @@ export const actions = {
 
 const ACTION_HANDLERS = {
   [SELECT_MODELDEF]: (state, action) => ({ ...state, selected: action.id }),
-  [REQUEST_MODELDEFS]: (state, action) => ({ ...state, fetching: true}),
+  [REQUEST_MODELDEFS]: (state, action) => ({ ...state, fetching: true }),
   [RECEIVE_MODELDEFS]: (state, action) => (
     { ...state, fetching: false, modelDefs: action.defs }
   )
@@ -55,12 +55,11 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  selected: 1,
-  fetching: false,
-  modelDefs: ["ModelDef1", "ModelDef2", "ModelDef3"]
+  selected: 'ModelDef1',
+  modelDefs: ['ModelDef1', 'ModelDef2', 'ModelDef3']
 };
 
-export default modeldefSelectionReducer = (state = initalState, action) => {
+export default function modelDefsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

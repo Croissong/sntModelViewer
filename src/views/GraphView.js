@@ -1,15 +1,15 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
-import ModelViewer from 'containers/ModelViewer';
 import ModelSelection from 'containers/ModelSelection';
+import ModelViewer from 'containers/ModelViewer';
 
-export class GraphView extends React.Component {
+export default class GraphView extends React.Component {
 
   render () {
     return (
       <div className='graphView'>
         <ModelSelection/>
-        <ModelEditor/>
+        <ModelViewer/>
       </div>
     );
   }

@@ -1,15 +1,14 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import ModelDefSelection from 'components/ModelDefSelection';
-import { actions as mdActions, fetchModelDefs } from 'redux/modules/modelDefs';
+import { actions as defActions, fetchModelDefs } from 'redux/modules/modelDefs';
 import IndexedModelViewer from 'components/IndexedModelViewer';
-import { actions as imActions, fetchIndexedModels } from 'redux/modules/indexedModels';
-import { fetchModel } from 'redux/modules/models';
+import { actions as modelActions, fetchIndexedModels, fetchModel } from 'redux/modules/models';
 
-const ModelDefSelection = connect(
+const ConnectedModelDefSelection = connect(
   (state) => (
     {
-      modelDefs: state.modelDefs,
+      modelDefs: state.modelDefs
     }
   ),
   (dispatch) => (
@@ -17,36 +16,34 @@ const ModelDefSelection = connect(
       fetchModelDefs: () => dispatch(fetchModelDefs()),
       selectModelDef: (modelDef) => {
         dispatch(fetchIndexedModels(modelDef));
-        dispatch(mdActions.select(modelDef));
-      },
+        dispatch(defActions.select(modelDef));
+      }
     }
   )
 )(ModelDefSelection);
 
-
-const IndexedModelViewer = connect(
+const ConnectedIndexedModelViewer = connect(
   (state) => (
     {
-      models: state.indexedModels,
+      models: state.models[state.modelDefs.selected]
     }
   ),
   (dispatch) => (
     {
       editModel: (id) => {
         dispatch(fetchModel(id));
-        dispatch(imActions.select(id));
-      },
+        dispatch(modelActions.select(id));
+      }
     }
   )
 )(IndexedModelViewer);
-
 
 export default class ModelSelection extends React.Component {
   render () {
     return (
       <div>
-        <ModelDefSelection/>
-        <IndexedModelViewer/>
+        <ConnectedModelDefSelection/>
+        <ConnectedIndexedModelViewer/>
       </div>
     );
   }
