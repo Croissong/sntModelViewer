@@ -17,14 +17,14 @@ function receive (defs) {
 }
 
 const SELECT_MODELDEF = 'SELECT_MODELDEF';
-function select (id) {
+function selectModelDef (id) {
   return {
     type: SELECT_MODELDEF,
     id
   };
 }
 
-export function fetchModeldefs () {
+export function fetchModelDefs () {
   return function (dispatch) {
     dispatch(request());
     return fetch('http://localhost:3005/modeldefs')
@@ -36,7 +36,7 @@ export function fetchModeldefs () {
 }
 
 export const actions = {
-  select
+  selectModelDef
 };
 
 // ------------------------------------

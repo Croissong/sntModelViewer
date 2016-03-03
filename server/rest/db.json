@@ -1,17 +1,8 @@
 {
   "modeldefs": [
-    {
-      "id": "1",
-      "name": "Model1"
-    },
-    {
-      "id": "2",
-      "name": "Model2"
-    },
-    {
-      "id": "3",
-      "name": "Model3"
-    }
+    "ModelDef1",
+    "ModelDef2",
+    "ModelDef3"
   ],
   "indexedModels": [
     {
@@ -19,17 +10,17 @@
       "models": [
         {
           "id": 1,
-          "name": "Model1",
+          "name": "Model11",
           "indexedField": 18
         },
         {
           "id": 2,
-          "name": "Model2",
+          "name": "Model12",
           "indexedField": 19
         },
         {
-          "id": 2,
-          "name": "Model3",
+          "id": 3,
+          "name": "Model13",
           "indexedField": 20
         }
       ]
@@ -39,17 +30,17 @@
       "models": [
         {
           "id": 1,
-          "name": "Model1",
+          "name": "Model21",
           "indexedField": 18
         },
         {
           "id": 2,
-          "name": "Model2",
+          "name": "Model22",
           "indexedField": 19
         },
         {
-          "id": 2,
-          "name": "Model3",
+          "id": 3,
+          "name": "Model23",
           "indexedField": 20
         }
       ]
@@ -68,7 +59,7 @@
           "indexedField": 19
         },
         {
-          "id": 2,
+          "id": 3,
           "name": "Model3",
           "indexedField": 20
         }
@@ -92,7 +83,7 @@
           "field1": 1
         },
         {
-          "id": 2,
+          "id": 3,
           "name": "Model3",
           "indexedField": 20,
           "field1": false
@@ -115,7 +106,7 @@
           "field1": 1
         },
         {
-          "id": 2,
+          "id": 3,
           "name": "Model3",
           "indexedField": 20,
           "field1": false
@@ -138,7 +129,7 @@
           "field1": 1
         },
         {
-          "id": 2,
+          "id": 3,
           "name": "Model3",
           "indexedField": 20,
           "field1": false

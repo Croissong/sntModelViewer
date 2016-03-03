@@ -1,3 +1,5 @@
+import { mapById } from 'redux/utils/modelUtils';
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -20,33 +22,27 @@ function receiveIndexedModels (modelDef, models) {
 }
 
 const SELECT_INDEXEDMODEL = 'SELECT_INDEXEDMODEL';
-function selectIndexModel (id) {
+function selectIndexedModel (modelDef, id) {
   return {
     type: SELECT_INDEXEDMODEL,
+    modelDef,
     id
   };
 }
 
 export const actions = {
-  selectIndexModel
+  selectIndexedModel
 };
 
 export function fetchIndexedModels (modelDef) {
   return function (dispatch) {
     dispatch(requestIndexedModels(modelDef));
-    return fetch('http://localhost:3005/models/' + modelDef)
+    return fetch('http://localhost:3005/indexedModels/' + modelDef)
        .then(response => response.json())
        .then(json =>
-         dispatch(receiveIndexedModels(modelDef, json))
+         dispatch(receiveIndexedModels(modelDef, json.models))
        );
   };
-}
-
-const mapModels = (modelDef, model) => {
-  models.reduce( obj = {}, m => {
-    let id = modelDef + '_' + m.id;
-    obj[id] = m;
-  })
 }
 
 // ------------------------------------
@@ -54,49 +50,41 @@ const mapModels = (modelDef, model) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SELECT_INDEXEDMODEL]: (state, action) => (
-    { ...state, selected: action.id }
+    { ...state, selected: { ...state.selected, [action.modelDef]: action.id } }
   ),
   [REQUEST_INDEXEDMODELS]: (state, action) => (
-    { ...state, fetching: state.fetching.push(action.modelDef) }
+    { ...state, fetching: [action.modelDef].concat(...state.fetching) }
   ),
-  [RECEIVE_INDEXEDMODELS]: (state, action) => {
-    let models = mapModels(action.modelDef, action.models);
-    let modelDefs = { ...state.modelDefs, [action.modelDef]: Object.keys(models)};
-    models = { ...state.models, ...models};
-    return {
-      ...state, fetching: state.fetching.pop(action.modelDef),
-      models: models, modelDefs: modelDefs
-    }
-  }
+  [RECEIVE_INDEXEDMODELS]: (state, action) => (
+    { ...state,
+      fetching: state.fetching.filter(e => (e !== action.modelDef)),
+      [action.modelDef]: mapById(action.models)
+    })
 };
 
 const initialState = {
-  selected: "ModelDef1_1",
+  selected: { ModelDef1: 1 },
   fetching: [],
-  modelDefs: {
-    ModelDef1: ["ModelDef1_1", "ModelDef1_2" "ModelDef1_3"]
-  }
-  models: {
-    ModelDef1_1: {
+  ModelDef1: {
+    1: {
       'id': 1,
       'name': 'Model1',
       'indexedField': 18
     },
-    ModelDef1_2: {
+    2: {
       'id': 2,
       'name': 'Model2',
       'indexedField': 19
     },
-    ModelDef1_3: {
+    3: {
       'id': 3,
       'name': 'Model3',
       'indexedField': 20
     }
   }
-}
 };
 
-indexedModelReducer = (state = initialState, action) => {
+export default function indexedModelReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import ModelDefSelection from 'components/ModelDefSelection';
 import { actions as defActions, fetchModelDefs } from 'redux/modules/modelDefs';
 import IndexedModelViewer from 'components/IndexedModelViewer';
-import { actions as modelActions, fetchIndexedModels, fetchModel } from 'redux/modules/models';
+import { fetchModel } from 'redux/modules/model';
+import { actions as iModelActions, fetchIndexedModels } from 'redux/modules/indexedModel';
+import { actions as editorActions } from 'redux/modules/editor';
 
 const ConnectedModelDefSelection = connect(
   (state) => (
@@ -16,7 +18,7 @@ const ConnectedModelDefSelection = connect(
       fetchModelDefs: () => dispatch(fetchModelDefs()),
       selectModelDef: (modelDef) => {
         dispatch(fetchIndexedModels(modelDef));
-        dispatch(defActions.select(modelDef));
+        dispatch(defActions.selectModelDef(modelDef));
       }
     }
   )
@@ -25,14 +27,16 @@ const ConnectedModelDefSelection = connect(
 const ConnectedIndexedModelViewer = connect(
   (state) => (
     {
-      models: state.models[state.modelDefs.selected]
+      models: state.indexedModel[state.modelDefs.selected],
+      fetching: state.indexedModel.fetching.includes(state.modelDefs.selected)
     }
   ),
   (dispatch) => (
     {
       editModel: (id) => {
+        dispatch(iModelActions.selectIndexedModel(id));
+        dispatch(editorActions.editModel(id));
         dispatch(fetchModel(id));
-        dispatch(modelActions.select(id));
       }
     }
   )
