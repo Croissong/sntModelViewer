@@ -3,23 +3,14 @@ import React from 'react';
 import ModelEditor from 'components/ModelEditor';
 
 const ConnectedModelEditor = connect(
-  (state) => {
-    let def = state.modelDefs.selected;
-    let id = state.indexedModel.selected[def];
-    let models = state.model[def];
-    if (!models || !models[id]) {
-      return {
-        model: {},
-        fetching: true,
-        active: state.editor.active
-      };
-    } else {
-      return {
-        model: models[id],
-        fetching: state.model.fetching[def].includes(id),
-        active: state.editor.active
-      };
-    }
+  (s) => {
+    let def = s.modelDefs.selected;
+    let id = s.indexedModel.selected.def;
+    let models = s.model[def];
+    return {
+      model: models[id],
+      fetching: s.model.fetching.includes({modelDef: def, id: id})
+    };
   }
 )(ModelEditor);
 

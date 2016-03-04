@@ -17,7 +17,7 @@ export default class IndexedModelViewer extends React.Component {
         <Tr key={model.id} data={model}>
           <Td key={model.id} column=''>
             <EditButton
-              modelId={model.id}
+              model={model}
               editModel={this.props.editModel}
             />
           </Td>

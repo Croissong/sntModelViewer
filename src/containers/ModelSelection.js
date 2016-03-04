@@ -33,10 +33,10 @@ const ConnectedIndexedModelViewer = connect(
   ),
   (dispatch) => (
     {
-      editModel: (id) => {
-        dispatch(iModelActions.selectIndexedModel(id));
-        dispatch(editorActions.editModel(id));
-        dispatch(fetchModel(id));
+      editModel: (modelDef, id) => {
+        dispatch(iModelActions.selectIndexedModel(modelDef, id));
+        dispatch(editorActions.editModel(modelDef, id));
+        dispatch(fetchModel(modelDef, id));
       }
     }
   )

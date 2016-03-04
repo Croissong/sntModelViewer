@@ -1,4 +1,6 @@
 import { mapById } from 'redux/utils/modelUtils';
+import i from 'icepick';
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -25,10 +27,10 @@ function receiveModel (modelDef, id, model) {
 export function fetchModel (modelDef, id) {
   return function (dispatch) {
     dispatch(requestModel(modelDef, id));
-    return fetch('http://localhost:3005/modeldefs')
+    return fetch('http://localhost:3005/models/' + modelDef)
        .then(response => response.json())
        .then(json =>
-         dispatch(receiveModel(modelDef, id, json))
+         dispatch(receiveModel(modelDef, id, json.models))
        );
   };
 }
@@ -38,20 +40,14 @@ export const actions = {
 
 // ------------------------------------
 // Action Handlers
+// [ACTION]: (state, action) => ...
 // ------------------------------------
+
 const ACTION_HANDLERS = {
-  [REQUEST_MODEL]: (state, action) => {
-    let md = action.modelDef;
-    return { ...state, fetching: { ...state.fetching, [md]: state.fetching.md.push(action.id) } };
-  },
-  [RECEIVE_MODEL]: (state, action) => {
-    let md = action.modelDef;
-    return {
-      ...state,
-      fetching: { ...state.fetching, [md]: state.fetching.md.pop(action.id) },
-      md: mapById(action.models)
-    };
-  }
+  [REQUEST_MODEL]: (s, a) => i.updateIn(s, ['fetching', a.modelDef], arr => i.push(arr, a.modelDef)),
+  [RECEIVE_MODEL]: (s, a) => i.chain(s)
+                              .updateIn(['fetching', a.modelDef], arr => arr.filter(e => e !== a.id))
+                              .assocIn([a.modelDef, a.id], mapById(a.model, a.modelDef))
 };
 
 // ------------------------------------
@@ -59,7 +55,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const initialState = {
-  fetching: {}
+  fetching: []
 };
 
 export default function modelReducer (state = initialState, action) {

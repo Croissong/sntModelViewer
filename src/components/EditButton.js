@@ -3,11 +3,11 @@ import React, { PropTypes } from 'react';
 export default class EditButton extends React.Component {
 
   static propTypes = {
-    modelId: PropTypes.number.isRequired,
+    model: PropTypes.object.isRequired,
     editModel: PropTypes.func.isRequired
   }
 
-  onClick = () => this.props.editModel(this.props.modelId);
+  onClick = () => this.props.editModel(this.props.model.modelDef, this.props.model.id);
 
   render () {
     return (

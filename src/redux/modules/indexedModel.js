@@ -1,4 +1,5 @@
 import { mapById } from 'redux/utils/modelUtils';
+import i from 'icepick';
 
 // ------------------------------------
 // Actions
@@ -47,19 +48,16 @@ export function fetchIndexedModels (modelDef) {
 
 // ------------------------------------
 // Action Handlers
+// [ACTION]: (state, action) => ...
 // ------------------------------------
+
 const ACTION_HANDLERS = {
-  [SELECT_INDEXEDMODEL]: (state, action) => (
-    { ...state, selected: { ...state.selected, [action.modelDef]: action.id } }
-  ),
-  [REQUEST_INDEXEDMODELS]: (state, action) => (
-    { ...state, fetching: [action.modelDef].concat(...state.fetching) }
-  ),
-  [RECEIVE_INDEXEDMODELS]: (state, action) => (
-    { ...state,
-      fetching: state.fetching.filter(e => (e !== action.modelDef)),
-      [action.modelDef]: mapById(action.models)
-    })
+  [SELECT_INDEXEDMODEL]: (s, a) => i.assocIn(s, ['selected', a.modelDef], a.id),
+  [REQUEST_INDEXEDMODELS]: (s, a) => i.updateIn(s, ['fetching'], (arr) => i.push(arr, a.modelDef)),
+  [RECEIVE_INDEXEDMODELS]: (s, a) => i.chain(s)
+                                      .updateIn('fetching',
+                                                (arr) => arr.filter(e => (e !== a.modelDef)))
+                                      .assoc('a.modelDef', mapById(a.models, a.modelDef))
 };
 
 const initialState = {
@@ -67,16 +65,19 @@ const initialState = {
   fetching: [],
   ModelDef1: {
     1: {
+      'modelDef': 'ModelDef1',
       'id': 1,
       'name': 'Model1',
       'indexedField': 18
     },
     2: {
+      'modelDef': 'ModelDef1',
       'id': 2,
       'name': 'Model2',
       'indexedField': 19
     },
     3: {
+      'modelDef': 'ModelDef1',
       'id': 3,
       'name': 'Model3',
       'indexedField': 20

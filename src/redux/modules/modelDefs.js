@@ -1,3 +1,5 @@
+import i from 'icepick';
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -41,14 +43,15 @@ export const actions = {
 
 // ------------------------------------
 // Action Handlers
+// [ACTION]: (state, action) => ...
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SELECT_MODELDEF]: (state, action) => ({ ...state, selected: action.id }),
-  [REQUEST_MODELDEFS]: (state, action) => ({ ...state, fetching: true }),
-  [RECEIVE_MODELDEFS]: (state, action) => (
-    { ...state, fetching: false, modelDefs: action.defs }
-  )
+  [SELECT_MODELDEF]: (s, a) => i.assoc(s, 'selected', a.id),
+  [REQUEST_MODELDEFS]: (s, a) => i.assoc(s, 'fetching', true),
+  [RECEIVE_MODELDEFS]: (s, a) => i.chain(s)
+                                  .assoc('fetching', false).assoc(modelDefs, a.modelDefs)
+                                  .value()
 };
 
 // ------------------------------------

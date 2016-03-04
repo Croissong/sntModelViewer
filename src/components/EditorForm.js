@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
-import EditorForm from 'components/EditorForm';
+import { Field, actions } from 'react-redux-form';
 
-export default class ModelEditor extends React.Component {
+class EditorForm extends React.Component {
 
   static propTypes = {
     model: PropTypes.object.isRequired,
-    fetching: PropTypes.bool.isRequired,
     editField: PropTypes.func.isRequired
   };
 
@@ -29,23 +28,34 @@ export default class ModelEditor extends React.Component {
       let val = this.getVal(model[f]);
       let type = this.getType(model[f]);
       return (
-        <div key={f}>
-          <div>{f}</div>
-          <div>{type}</div>
+        <Field key={f} model={'editedModel.'+f}>
+          <label>{f}</label>
+          <label>{type}</label>
           <input type={type} id={f} value={val}></input>
-        </div>
+          </Field>
       );
     }
     );
   };
 
   render () {
-    let { p } = this.props; 
     return (
-      <EditorForm
-        model={p.model}
-      />
+      <form onSubmit={() => console.log("submit")}>> 
+        {this.createFormFields()}
+        <button type="submit">
+          Finish registration, { user.firstName } { user.lastName }!
+        </button>
+      </form>
+      
     );
   }
 }
 
+
+
+EditorForm = reduxForm({
+  form: 'editor',
+  fields: ['firstName', 'lastName', 'email']
+})(EditorForm);
+
+export default ContactForm;
