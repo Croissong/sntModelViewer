@@ -1,4 +1,4 @@
-import { mapById } from 'redux/utils/modelUtils';
+import { handlers as index_handlers } from './indexedModel';
 import i from 'icepick';
 
 // ------------------------------------
@@ -24,13 +24,15 @@ function receiveModel (modelDef, id, model) {
   };
 }
 
-export function fetchModel (modelDef, id) {
+export function fetchModel (modelDef, id, action) {
   return function (dispatch) {
     dispatch(requestModel(modelDef, id));
     return fetch('http://localhost:3005/models/' + modelDef)
        .then(response => response.json())
-       .then(json =>
-         dispatch(receiveModel(modelDef, id, json.models))
+       .then(json => {
+         dispatch(receiveModel(modelDef, id, json.models[id]));
+         if (action) dispatch(action(modelDef, id, json.models[id]));
+       }
        );
   };
 }
@@ -44,10 +46,12 @@ export const actions = {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [REQUEST_MODEL]: (s, a) => i.updateIn(s, ['fetching', a.modelDef], arr => i.push(arr, a.modelDef)),
+  [REQUEST_MODEL]: (s, a) => i.assocIn(s, [a.modelDef, a.id, 'fetching'], true),
   [RECEIVE_MODEL]: (s, a) => i.chain(s)
-                              .updateIn(['fetching', a.modelDef], arr => arr.filter(e => e !== a.id))
-                              .assocIn([a.modelDef, a.id], mapById(a.model, a.modelDef))
+                              .updateIn([a.modelDef, a.id], arr => i.dissoc(arr, 'fetching'))
+                              .assocIn([a.modelDef, a.id, 'fields'], a.model)
+                              .value(),
+  ...index_handlers
 };
 
 // ------------------------------------
@@ -55,7 +59,30 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const initialState = {
-  fetching: []
+  selected: {ModelDef1: 1},
+  ModelDef1: {
+    1: {
+      indexed_fields: {
+        'id': 1,
+        'name': 'Model1',
+        'indexedField': 18
+      }
+    },
+    2: {
+      indexed_fields: {
+        'id': 2,
+        'name': 'Model2',
+        'indexedField': 19
+      }
+    },
+    3: {
+      indexed_fields: {
+        'id': 3,
+        'name': 'Model3',
+        'indexedField': 20
+      }
+    }
+  }
 };
 
 export default function modelReducer (state = initialState, action) {

@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
-import { Field, actions } from 'react-redux-form';
+import { Field } from 'react-redux-form';
 
-class EditorForm extends React.Component {
+export default class EditorForm extends React.Component {
 
   static propTypes = {
-    model: PropTypes.object.isRequired,
-    editField: PropTypes.func.isRequired
+    editedModel: PropTypes.object.isRequired
   };
 
   getVal = (field) => (
@@ -20,42 +19,33 @@ class EditorForm extends React.Component {
     return str === 'java.lang.Class' ? str : typeof (str);
   };
 
-  onEdit
-
   createFormFields = () => {
-    let model = this.props.model;
-    return Object.keys(model).map(f => {
-      let val = this.getVal(model[f]);
-      let type = this.getType(model[f]);
+    let m = this.props.editedModel;
+    return Object.keys(m).map(f => {
+      let type = this.getType(m[f]);
       return (
-        <Field key={f} model={'editedModel.'+f}>
-          <label>{f}</label>
-          <label>{type}</label>
-          <input type={type} id={f} value={val}></input>
-          </Field>
+        <Field key={f} model={'editor.editor.editedModel.' + f}>
+          <label>{f}</label><br/>
+          <label>({type})</label><br/>
+          <input type={type} id={f}></input>
+        </Field>
       );
     }
     );
   };
 
+  onSave = () => {
+    console.log('submit');
+  }
+
   render () {
     return (
-      <form onSubmit={() => console.log("submit")}>> 
+      <form onSubmit={this.onSave}>
         {this.createFormFields()}
-        <button type="submit">
-          Finish registration, { user.firstName } { user.lastName }!
+        <button type='submit'>
+          Save
         </button>
       </form>
-      
     );
   }
 }
-
-
-
-EditorForm = reduxForm({
-  form: 'editor',
-  fields: ['firstName', 'lastName', 'email']
-})(EditorForm);
-
-export default ContactForm;

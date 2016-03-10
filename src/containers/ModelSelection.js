@@ -27,16 +27,15 @@ const ConnectedModelDefSelection = connect(
 const ConnectedIndexedModelViewer = connect(
   (state) => (
     {
-      models: state.indexedModel[state.modelDefs.selected],
-      fetching: state.indexedModel.fetching.includes(state.modelDefs.selected)
+      modelDef: state.modelDefs.selected,
+      models: state.model[state.modelDefs.selected]
     }
   ),
   (dispatch) => (
     {
       editModel: (modelDef, id) => {
+        dispatch(fetchModel(modelDef, id, editorActions.editModel));
         dispatch(iModelActions.selectIndexedModel(modelDef, id));
-        dispatch(editorActions.editModel(modelDef, id));
-        dispatch(fetchModel(modelDef, id));
       }
     }
   )

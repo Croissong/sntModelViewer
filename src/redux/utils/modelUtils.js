@@ -1,7 +1,6 @@
-export const mapById = (models, modelDef) => (
+export const mapById = (models, nestedKey) => (
   models.reduce((obj, m) => {
-    m.modelDef = modelDef;
-    obj[m.id] = m;
+    obj[m.id] = {[nestedKey]: m};
     return obj;
   }, {})
 );

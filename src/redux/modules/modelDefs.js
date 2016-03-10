@@ -50,7 +50,7 @@ const ACTION_HANDLERS = {
   [SELECT_MODELDEF]: (s, a) => i.assoc(s, 'selected', a.id),
   [REQUEST_MODELDEFS]: (s, a) => i.assoc(s, 'fetching', true),
   [RECEIVE_MODELDEFS]: (s, a) => i.chain(s)
-                                  .assoc('fetching', false).assoc(modelDefs, a.modelDefs)
+                                  .assoc('fetching', false).assoc('modelDefs', a.modelDefs)
                                   .value()
 };
 

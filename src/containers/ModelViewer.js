@@ -5,11 +5,12 @@ import ModelEditor from 'components/ModelEditor';
 const ConnectedModelEditor = connect(
   (s) => {
     let def = s.modelDefs.selected;
-    let id = s.indexedModel.selected.def;
-    let models = s.model[def];
+    let id = s.model.selected[def] || 1;
+    let model = s.model[def][id] || {};
     return {
-      model: models[id],
-      fetching: s.model.fetching.includes({modelDef: def, id: id})
+      fetching: model.fetching,
+      active: s.editor.editor.active,
+      editedModel: s.editor.editor.editedModel
     };
   }
 )(ModelEditor);

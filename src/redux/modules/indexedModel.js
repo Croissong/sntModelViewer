@@ -50,43 +50,13 @@ export function fetchIndexedModels (modelDef) {
 // Action Handlers
 // [ACTION]: (state, action) => ...
 // ------------------------------------
-
-const ACTION_HANDLERS = {
+export const handlers = {
   [SELECT_INDEXEDMODEL]: (s, a) => i.assocIn(s, ['selected', a.modelDef], a.id),
-  [REQUEST_INDEXEDMODELS]: (s, a) => i.updateIn(s, ['fetching'], (arr) => i.push(arr, a.modelDef)),
+  [REQUEST_INDEXEDMODELS]: (s, a) => i.assocIn(s, [a.modelDef, 'indexed_fetching'], true),
   [RECEIVE_INDEXEDMODELS]: (s, a) => i.chain(s)
-                                      .updateIn('fetching',
-                                                (arr) => arr.filter(e => (e !== a.modelDef)))
-                                      .assoc('a.modelDef', mapById(a.models, a.modelDef))
+                                      .updateIn([a.modelDef], val => i.dissoc(val, 'indexed_fetching'))
+                                      .updateIn([a.modelDef], val =>
+                                        i.merge(val, mapById(a.models, 'indexed_fields')))
+                                      .value()
 };
 
-const initialState = {
-  selected: { ModelDef1: 1 },
-  fetching: [],
-  ModelDef1: {
-    1: {
-      'modelDef': 'ModelDef1',
-      'id': 1,
-      'name': 'Model1',
-      'indexedField': 18
-    },
-    2: {
-      'modelDef': 'ModelDef1',
-      'id': 2,
-      'name': 'Model2',
-      'indexedField': 19
-    },
-    3: {
-      'modelDef': 'ModelDef1',
-      'id': 3,
-      'name': 'Model3',
-      'indexedField': 20
-    }
-  }
-};
-
-export default function indexedModelReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type];
-
-  return handler ? handler(state, action) : state;
-}
