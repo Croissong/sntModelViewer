@@ -75,7 +75,7 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
-    "react-redux-form": "^0.7.2",
+    "react-redux-form": "^0.8.2",
     "react-router": "^2.0.0",
     "react-select": "^1.0.0-beta10",
     "reactable": "^0.12.3",

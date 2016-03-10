@@ -4,7 +4,9 @@ import { Field } from 'react-redux-form';
 export default class EditorForm extends React.Component {
 
   static propTypes = {
-    editedModel: PropTypes.object.isRequired
+    editedFields: PropTypes.object.isRequired,
+    resetFields: PropTypes.func.isRequired,
+    saveModel: PropTypes.func.isRequired
   };
 
   getVal = (field) => (
@@ -20,30 +22,30 @@ export default class EditorForm extends React.Component {
   };
 
   createFormFields = () => {
-    let m = this.props.editedModel;
-    return Object.keys(m).map(f => {
-      let type = this.getType(m[f]);
+    let fields = this.props.editedFields;
+    return Object.keys(fields).map(f => {
+      let type = this.getType(fields[f]);
       return (
-        <Field key={f} model={'editor.editor.editedModel.' + f}>
+        <Field key={f} model={f}>
           <label>{f}</label><br/>
           <label>({type})</label><br/>
-          <input type={type} id={f}></input>
+          <input type='text' id={f} value={fields[f]}></input>
         </Field>
       );
     }
     );
   };
 
-  onSave = () => {
-    console.log('submit');
-  }
-
   render () {
+    let p = this.props;
     return (
-      <form onSubmit={this.onSave}>
+      <form>
         {this.createFormFields()}
-        <button type='submit'>
+        <button type='button' onClick={p.saveModel}>
           Save
+        </button>
+        <button type='button' onClick={p.resetFields}>
+          Reset
         </button>
       </form>
     );

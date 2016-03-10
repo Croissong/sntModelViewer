@@ -27,13 +27,12 @@ function receiveModel (modelDef, id, model) {
 export function fetchModel (modelDef, id, action) {
   return function (dispatch) {
     dispatch(requestModel(modelDef, id));
-    return fetch('http://localhost:3005/models/' + modelDef)
+    return fetch('http://localhost:3005/models/' + modelDef + '_' + id)
        .then(response => response.json())
        .then(json => {
-         dispatch(receiveModel(modelDef, id, json.models[id]));
-         if (action) dispatch(action(modelDef, id, json.models[id]));
-       }
-       );
+         dispatch(receiveModel(modelDef, id, json.fields));
+         if (action) dispatch(action(modelDef, id, json.fields));
+       });
   };
 }
 
@@ -62,6 +61,7 @@ const initialState = {
   selected: {ModelDef1: 1},
   ModelDef1: {
     1: {
+      modelDef: 'ModelDef1',
       indexed_fields: {
         'id': 1,
         'name': 'Model1',
@@ -69,6 +69,7 @@ const initialState = {
       }
     },
     2: {
+      modelDef: 'ModelDef1',
       indexed_fields: {
         'id': 2,
         'name': 'Model2',
@@ -76,6 +77,7 @@ const initialState = {
       }
     },
     3: {
+      modelDef: 'ModelDef1',
       indexed_fields: {
         'id': 3,
         'name': 'Model3',

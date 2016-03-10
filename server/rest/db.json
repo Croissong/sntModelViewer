@@ -7,7 +7,7 @@
   "indexedModels": [
     {
       "id": "ModelDef1",
-      "models": [
+      "fields": [
         {
           "id": 1,
           "name": "Model11",
@@ -27,7 +27,7 @@
     },
     {
       "id": "ModelDef2",
-      "models": [
+      "fields": [
         {
           "id": 1,
           "name": "Model21",
@@ -47,20 +47,20 @@
     },
     {
       "id": "ModelDef3",
-      "models": [
+      "fields": [
         {
           "id": 1,
-          "name": "Model1",
+          "name": "Model31",
           "indexedField": 18
         },
         {
           "id": 2,
-          "name": "Model2",
+          "name": "Model32",
           "indexedField": 19
         },
         {
           "id": 3,
-          "name": "Model3",
+          "name": "Model33",
           "indexedField": 20
         }
       ]
@@ -68,112 +68,121 @@
   ],
   "models": [
     {
-      "id": "ModelDef1",
-      "models": {
-        "1": {
-          "id": 1,
-          "name": "Model1",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 18
-          },
-          "field1": {
-            "type": "java.lang.Class",
-            "value": "ModelDef1"
-          }
+      "id": "ModelDef1_1",
+      "fields": {
+        "id": 1,
+        "name": "Model1_test",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 18
         },
-        "2": {
-          "id": 2,
-          "name": "Model2",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 19
-          },
-          "field1": {
-            "type": "java.lang.Boolean",
-            "value": false
-          }
-        },
-        "3": {
-          "id": 3,
-          "name": "Model3",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 20
-          },
-          "field1": {
-            "type": "java.lang.Class",
-            "value": "ModelDef1"
-          }
+        "field1": {
+          "type": "java.lang.Class",
+          "value": "ModelDef1"
         }
       }
     },
     {
-      "id": "ModelDef2",
-      "models": [
-        {
-          "id": 1,
-          "name": "Model1",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 18
-          },
-          "field1": "string"
+      "id": "ModelDef1_2",
+      "fields": {
+        "id": 2,
+        "name": "Model2",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 19
         },
-        {
-          "id": 2,
-          "name": "Model2",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 19
-          },
-          "field1": 1
-        },
-        {
-          "id": 3,
-          "name": "Model3",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 20
-          },
-          "field1": false
+        "field1": {
+          "type": "java.lang.Boolean",
+          "value": false
         }
-      ]
+      }
     },
     {
-      "id": "ModelDef3",
-      "models": [
-        {
-          "id": 1,
-          "name": "Model1",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 18
-          },
-          "field1": "string"
+      "id": "ModelDef1_3",
+      "fields": {
+        "id": 3,
+        "name": "Model3",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 20
         },
-        {
-          "id": 2,
-          "name": "Model2",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 19
-          },
-          "field1": 1
-        },
-        {
-          "id": 3,
-          "name": "Model3",
-          "indexedField": {
-            "type": "java.lang.Integer",
-            "value": 29
-          },
-          "field1": false
+        "field1": {
+          "type": "java.lang.Class",
+          "value": "ModelDef1"
         }
-      ]
+      }
+    },
+    {
+      "id": "ModelDef2_1",
+      "fields": {
+        "id": 1,
+        "name": "Model1",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 18
+        },
+        "field1": "string"
+      }
+    },
+    {
+      "id": "ModelDef2_2",
+      "fields": {
+        "id": 2,
+        "name": "Model2",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 19
+        },
+        "field1": 1
+      }
+    },
+    {
+      "id": "ModelDef2_3",
+      "fields": {
+        "id": 3,
+        "name": "Model3",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 20
+        },
+        "field1": false
+      }
+    },
+    {
+      "id": "ModelDef3_1",
+      "fields": {
+        "id": 1,
+        "name": "Model1",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 18
+        },
+        "field1": "string"
+      }
+    },
+    {
+      "id": "ModelDef3_2",
+      "fields": {
+        "id": 2,
+        "name": "Model2",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 19
+        },
+        "field1": 1
+      }
+    },
+    {
+      "id": "ModelDef3_3",
+      "fields": {
+        "id": 3,
+        "name": "Model3",
+        "indexedField": {
+          "type": "java.lang.Integer",
+          "value": 29
+        },
+        "field1": false
+      }
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
