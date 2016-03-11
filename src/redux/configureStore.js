@@ -4,7 +4,8 @@ import rootReducer from './rootReducer';
 import { routerMiddleware } from 'react-router-redux';
 import i from 'immutable';
 
-export default function configureStore (initialState = i.Map(), history) {
+export default function configureStore (initialState, history) {
+  initialState = i.Map();
   // Compose final middleware and use devtools in debug environment
   let middleware = applyMiddleware(thunk, routerMiddleware(history));
   if (__DEBUG__) {

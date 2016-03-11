@@ -46,7 +46,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [REQUEST_MODEL]: (s, a) => s.setIn([a.modelDef, a.id, 'fetching'], true),
   [RECEIVE_MODEL]: (s, a) => s.toSeq()
-                              .updateIn([a.modelDef, a.id], arr => i.dissoc(arr, 'fetching'))
+                              .deleteIn([a.modelDef, a.id], 'fetching')
                               .setIn([a.modelDef, a.id, 'fields'], a.model),
   ...index_handlers
 };
