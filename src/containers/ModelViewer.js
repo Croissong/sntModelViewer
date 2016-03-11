@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ModelEditor from 'components/ModelEditor';
 import { fetchModel } from 'redux/modules/model';
 import { actions, saveModel } from 'redux/modules/editor';
@@ -9,9 +9,8 @@ const ConnectedModelEditor = connect(
   (s) => {
     let def = s.modelDefs.selected;
     let id = s.model.selected[def] || 1;
-    let model = s.model[def][id];
+    let model = s.model[def][id] || {};
     return {
-      active: s.editor.editor.active,
       model: model,
       editedFields: s.editor.editor.editedModel
     };
@@ -22,11 +21,22 @@ const ConnectedModelEditor = connect(
   })
 )(ModelEditor);
 
-export default class ModelViewer extends React.Component {
+class ModelViewer extends React.Component {
 
+  static propTypes = {
+    active: PropTypes.bool.isRequired,
+  };
+  
   render () {
-    return (
-      <ConnectedModelEditor/>
-    );
+    if(this.props.active) {
+      return (
+        <ConnectedModelEditor/>
+      );
+    }
+    return null;
   }
 }
+
+export default connect(
+  (s) => ({active: s.editor.editor.active})
+)(ModelViewer)

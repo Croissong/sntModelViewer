@@ -71,7 +71,7 @@
       "id": "ModelDef1_1",
       "fields": {
         "id": 1,
-        "name": "Model1_test",
+        "name": "Model1",
         "indexedField": {
           "type": "java.lang.Integer",
           "value": 18

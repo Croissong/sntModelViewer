@@ -58,7 +58,6 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const initialState = {
-  selected: {ModelDef1: 1},
   ModelDef1: {
     1: {
       modelDef: 'ModelDef1',

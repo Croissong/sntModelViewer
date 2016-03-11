@@ -45,12 +45,10 @@ export function fetchIndexedModels (modelDef) {
   };
 }
 
-const mapById = (modelDef, models, nestedKey) => (
-  models.reduce((obj, m) => {
-    obj[m.id] = {[nestedKey]: m};
-    return obj;
-  }, {modelDef: modelDef})
-);
+const mapById = (modelDef, models, nestedKey) => models.reduce((obj, m) => {
+  obj[m.id] = {modelDef: modelDef, [nestedKey]: m};
+  return obj;
+}, {});
 
 // ------------------------------------
 // Action Handlers
@@ -61,9 +59,8 @@ export const handlers = {
   [REQUEST_INDEXEDMODELS]: (s, a) => i.assocIn(s, [a.modelDef, 'indexed_fetching'], true),
   [RECEIVE_INDEXEDMODELS]: (s, a) => i.chain(s)
                                       .updateIn([a.modelDef], val => i.dissoc(val, 'indexed_fetching'))
-                                      .assocIn([a.modelDef, a.id, 'modelDef'], a.modelDef)
                                       .updateIn([a.modelDef], val =>
-                                        i.merge(val, mapById(a.models, 'indexed_fields')))
+                                        i.merge(val, mapById(a.modelDef, a.models, 'indexed_fields')))
                                       .value()
 };
 

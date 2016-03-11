@@ -5,7 +5,6 @@ export default class ModelEditor extends React.Component {
 
   static propTypes = {
     model: PropTypes.object,
-    active: PropTypes.bool.isRequired,
     editedFields: PropTypes.object,
     resetFields: PropTypes.func.isRequired,
     saveModel: PropTypes.func.isRequired
@@ -17,12 +16,12 @@ export default class ModelEditor extends React.Component {
 
   render () {
     let p = this.props;
-    if (!p.model.fetching && p.active) {
+    if (!p.model.fetching) {
       return (
         <EditorForm
-          editedFields={p.editedFields}
-          resetFields={this.reset}
-          saveModel={this.save}
+            editedFields={p.editedFields}
+            resetFields={this.reset}
+            saveModel={this.save}
         />
       );
     }

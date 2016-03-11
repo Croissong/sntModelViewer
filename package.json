@@ -67,6 +67,7 @@
     "debug": "^2.2.0",
     "history": "^2.0.0",
     "icepick": "^1.1.0",
+    "json-server": "^0.8.8",
     "koa": "^2.0.0-alpha.3",
     "koa-connect-history-api-fallback": "^0.3.0",
     "koa-convert": "^1.2.0",
@@ -77,9 +78,9 @@
     "react-redux": "^4.0.0",
     "react-redux-form": "^0.8.2",
     "react-router": "^2.0.0",
+    "react-router-redux": "^4.0.0",
     "react-select": "^1.0.0-beta10",
     "reactable": "^0.12.3",
-    "react-router-redux": "^4.0.0",
     "redux": "^3.0.0",
     "redux-thunk": "^1.0.0"
   },
