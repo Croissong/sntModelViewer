@@ -1,5 +1,4 @@
 import { handlers as index_handlers } from './indexedModel';
-import i from 'icepick';
 
 // ------------------------------------
 // Actions
@@ -45,11 +44,10 @@ export const actions = {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [REQUEST_MODEL]: (s, a) => i.assocIn(s, [a.modelDef, a.id, 'fetching'], true),
-  [RECEIVE_MODEL]: (s, a) => i.chain(s)
+  [REQUEST_MODEL]: (s, a) => s.setIn([a.modelDef, a.id, 'fetching'], true),
+  [RECEIVE_MODEL]: (s, a) => s.toSeq()
                               .updateIn([a.modelDef, a.id], arr => i.dissoc(arr, 'fetching'))
-                              .assocIn([a.modelDef, a.id, 'fields'], a.model)
-                              .value(),
+                              .setIn([a.modelDef, a.id, 'fields'], a.model),
   ...index_handlers
 };
 

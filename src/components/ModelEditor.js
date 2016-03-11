@@ -19,9 +19,9 @@ export default class ModelEditor extends React.Component {
     if (!p.model.fetching) {
       return (
         <EditorForm
-            editedFields={p.editedFields}
-            resetFields={this.reset}
-            saveModel={this.save}
+          editedFields={p.editedFields}
+          resetFields={this.reset}
+          saveModel={this.save}
         />
       );
     }

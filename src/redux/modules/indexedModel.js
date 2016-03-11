@@ -1,5 +1,3 @@
-import i from 'icepick';
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -55,12 +53,11 @@ const mapById = (modelDef, models, nestedKey) => models.reduce((obj, m) => {
 // [ACTION]: (state, action) => ...
 // ------------------------------------
 export const handlers = {
-  [SELECT_INDEXEDMODEL]: (s, a) => i.assocIn(s, ['selected', a.modelDef], a.id),
-  [REQUEST_INDEXEDMODELS]: (s, a) => i.assocIn(s, [a.modelDef, 'indexed_fetching'], true),
-  [RECEIVE_INDEXEDMODELS]: (s, a) => i.chain(s)
-                                      .updateIn([a.modelDef], val => i.dissoc(val, 'indexed_fetching'))
-                                      .updateIn([a.modelDef], val =>
-                                        i.merge(val, mapById(a.modelDef, a.models, 'indexed_fields')))
-                                      .value()
+  [SELECT_INDEXEDMODEL]: (s, a) => s.setIn(['selected', a.modelDef], a.id),
+  [REQUEST_INDEXEDMODELS]: (s, a) => s.setIn([a.modelDef, 'indexed_fetching'], true),
+  [RECEIVE_INDEXEDMODELS]: (s, a) => s.toSeq()
+                                      .deleteIn([a.modelDef], 'indexed_fetching')
+                                      .mergeDeepIn([a.modelDef],
+                                                   mapById(a.modelDef, a.models, 'indexed_fields'))
 };
 

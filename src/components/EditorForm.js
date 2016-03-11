@@ -32,8 +32,8 @@ export default class EditorForm extends React.Component {
           <label>{f}</label><br/>
           <label>({type})</label><br/>
           <input
-              id={f}
-              value={fields[f]}>
+            id={f}
+            value={fields[f]}>
           </input>
         </Field>
       );

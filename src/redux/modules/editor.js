@@ -1,6 +1,5 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import { formReducer, actionTypes } from 'react-redux-form';
-import i from 'icepick';
 
 // ------------------------------------
 // Actions
@@ -73,15 +72,14 @@ export function saveModel (model) {
 // [ACTION]: (state, action) => ...
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [EDIT_MODEL]: (s, a) => i.chain(s)
-                           .assoc('active', true)
-                           .assoc('model', {modelDef: a.modelDef, id: a.id})
-                           .assoc('editedModel', a.model)
-                           .value(),
-  [actionTypes.CHANGE]: (s, a) => i.assocIn(s, ['editedModel', a.model], a.value),
-  [RESET_MODEL]: (s, a) => i.assoc(s, 'editedModel', a.model),
-  [SAVING_MODEL]: (s, a) => i.assoc(s, 'saving', true),
-  [SAVED_MODEL]: (s, a) => i.dissoc(s, 'saving')
+  [EDIT_MODEL]: (s, a) => s.toSeq()
+                           .set('active', true)
+                           .set('model', {modelDef: a.modelDef, id: a.id})
+                           .set('editedModel', a.model),
+  [actionTypes.CHANGE]: (s, a) => s.setIn(['editedModel', a.model], a.value),
+  [RESET_MODEL]: (s, a) => s.set('editedModel', a.model),
+  [SAVING_MODEL]: (s, a) => s.set('saving', true),
+  [SAVED_MODEL]: (s, a) => s.delete('saving')
 };
 
 // ------------------------------------

@@ -2,13 +2,14 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './rootReducer';
 import { routerMiddleware } from 'react-router-redux';
+import i from 'immutable';
 
-export default function configureStore (initialState = {}, history) {
+export default function configureStore (initialState = i.Map(), history) {
   // Compose final middleware and use devtools in debug environment
   let middleware = applyMiddleware(thunk, routerMiddleware(history));
   if (__DEBUG__) {
     const devTools = window.devToolsExtension
-      ? window.devToolsExtension()
+                   ? window.devToolsExtension()
       : require('containers/dev/DevTools').default.instrument();
     middleware = compose(middleware, devTools);
   }

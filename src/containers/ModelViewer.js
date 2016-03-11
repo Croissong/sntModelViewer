@@ -24,11 +24,11 @@ const ConnectedModelEditor = connect(
 class ModelViewer extends React.Component {
 
   static propTypes = {
-    active: PropTypes.bool.isRequired,
+    active: PropTypes.bool.isRequired
   };
-  
+
   render () {
-    if(this.props.active) {
+    if (this.props.active) {
       return (
         <ConnectedModelEditor/>
       );
@@ -39,4 +39,4 @@ class ModelViewer extends React.Component {
 
 export default connect(
   (s) => ({active: s.editor.editor.active})
-)(ModelViewer)
+)(ModelViewer);

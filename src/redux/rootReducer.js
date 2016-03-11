@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import { routerReducer as router } from 'react-router-redux';
 import model from './modules/model';
 import indexedModel from './modules/indexedModel';
