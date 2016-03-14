@@ -9,17 +9,17 @@
       "id": "ModelDef1",
       "fields": [
         {
-          "id": 1,
+          "id": "1",
           "name": "Model11",
           "indexedField": 18
         },
         {
-          "id": 2,
+          "id": "2",
           "name": "Model12",
           "indexedField": 19
         },
         {
-          "id": 3,
+          "id": "3",
           "name": "Model13",
           "indexedField": 20
         }
@@ -29,17 +29,17 @@
       "id": "ModelDef2",
       "fields": [
         {
-          "id": 1,
+          "id": "1",
           "name": "Model21",
           "indexedField": 18
         },
         {
-          "id": 2,
+          "id": "2",
           "name": "Model22",
           "indexedField": 19
         },
         {
-          "id": 3,
+          "id": "3",
           "name": "Model23",
           "indexedField": 20
         }
@@ -49,17 +49,17 @@
       "id": "ModelDef3",
       "fields": [
         {
-          "id": 1,
+          "id": "1",
           "name": "Model31",
           "indexedField": 18
         },
         {
-          "id": 2,
+          "id": "2",
           "name": "Model32",
           "indexedField": 19
         },
         {
-          "id": 3,
+          "id": "3",
           "name": "Model33",
           "indexedField": 20
         }
@@ -70,7 +70,7 @@
     {
       "id": "ModelDef1_1",
       "fields": {
-        "id": 1,
+        "id": "1",
         "name": "Model1",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -85,7 +85,7 @@
     {
       "id": "ModelDef1_2",
       "fields": {
-        "id": 2,
+        "id": "2",
         "name": "Model2",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -100,7 +100,7 @@
     {
       "id": "ModelDef1_3",
       "fields": {
-        "id": 3,
+        "id": "3",
         "name": "Model3",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -115,7 +115,7 @@
     {
       "id": "ModelDef2_1",
       "fields": {
-        "id": 1,
+        "id": "1",
         "name": "Model1",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -127,7 +127,7 @@
     {
       "id": "ModelDef2_2",
       "fields": {
-        "id": 2,
+        "id": "2",
         "name": "Model2",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -139,7 +139,7 @@
     {
       "id": "ModelDef2_3",
       "fields": {
-        "id": 3,
+        "id": "3",
         "name": "Model3",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -151,7 +151,7 @@
     {
       "id": "ModelDef3_1",
       "fields": {
-        "id": 1,
+        "id": "1",
         "name": "Model1",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -163,7 +163,7 @@
     {
       "id": "ModelDef3_2",
       "fields": {
-        "id": 2,
+        "id": "2",
         "name": "Model2",
         "indexedField": {
           "type": "java.lang.Integer",
@@ -175,7 +175,7 @@
     {
       "id": "ModelDef3_3",
       "fields": {
-        "id": 3,
+        "id": "3",
         "name": "Model3",
         "indexedField": {
           "type": "java.lang.Integer",

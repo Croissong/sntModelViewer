@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -20,10 +21,9 @@ function receiveIndexedModels (modelDef, models) {
 }
 
 const SELECT_INDEXEDMODEL = 'SELECT_INDEXEDMODEL';
-function selectIndexedModel (modelDef, id) {
+function selectIndexedModel (id) {
   return {
     type: SELECT_INDEXEDMODEL,
-    modelDef,
     id
   };
 }
@@ -43,8 +43,13 @@ export function fetchIndexedModels (modelDef) {
   };
 }
 
-const mapById = (modelDef, models, nestedKey) => models.reduce((obj, m) => {
-  obj[m.id] = {modelDef: modelDef, [nestedKey]: m};
+const mapById = (modelDef, models) => models.reduce((obj, m) => {
+  let id = modelDef + '_' + m.id;
+  obj[id] = {
+    id: id,
+    modelDef: modelDef,
+    indexed_fields: m
+  };
   return obj;
 }, {});
 
@@ -53,11 +58,13 @@ const mapById = (modelDef, models, nestedKey) => models.reduce((obj, m) => {
 // [ACTION]: (state, action) => ...
 // ------------------------------------
 export const handlers = {
-  [SELECT_INDEXEDMODEL]: (s, a) => s.setIn(['selected', a.modelDef], a.id),
-  [REQUEST_INDEXEDMODELS]: (s, a) => s.setIn([a.modelDef, 'indexed_fetching'], true),
-  [RECEIVE_INDEXEDMODELS]: (s, a) => s.toSeq()
-                                      .deleteIn([a.modelDef], 'indexed_fetching')
-                                      .mergeDeepIn([a.modelDef],
-                                                   mapById(a.modelDef, a.models, 'indexed_fields'))
+  [SELECT_INDEXEDMODEL]: (s, a) => s.setIn(['selected', s.getIn('modelDefs', 'selected')], a.id),
+  [REQUEST_INDEXEDMODELS]: (s, a) => s.update('fetching_indexed', val => val.push(a.modelDef)),
+  [RECEIVE_INDEXEDMODELS]: (s, a) => {
+    let models = mapById(a.modelDef, a.models);
+    return s.update('fetching_indexed', val => val.filter(mD => mD !== a.modelDef))
+            .set(a.modelDef, Immutable.List.of(...Object.keys(models)))
+            .mergeDeepIn(['models'], models);
+  }
 };
 

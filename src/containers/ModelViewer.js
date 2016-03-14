@@ -3,21 +3,17 @@ import React, { PropTypes } from 'react';
 import ModelEditor from 'components/ModelEditor';
 import { fetchModel } from 'redux/modules/model';
 import { actions, saveModel } from 'redux/modules/editor';
-import i from 'icepick';
 
 const ConnectedModelEditor = connect(
-  (s) => {
-    let def = s.modelDefs.selected;
-    let id = s.model.selected[def] || 1;
-    let model = s.model[def][id] || {};
-    return {
-      model: model,
-      editedFields: s.editor.editor.editedModel
-    };
-  },
+  (state) => ({
+    model: getSelectedModel(state),
+    editedFields: state.getIn(['editor', 'editedModel']).toJS()
+  }),
   (dispatch) => ({
-    resetFields: (model) => dispatch(fetchModel(model.modelDef, model.fields.id, actions.resetModel)),
-    saveModel: (model, editedFields) => dispatch(saveModel(i.assocIn(model, ['fields'], editedFields)))
+    resetFields: (model) => dispatch(fetchModel(model.get('modelDef'),
+                                                model.get('fields').id,
+                                                actions.resetModel)),
+    saveModel: (model, editedFields) => dispatch(saveModel(model.merge('fields', editedFields)))
   })
 )(ModelEditor);
 
@@ -38,5 +34,10 @@ class ModelViewer extends React.Component {
 }
 
 export default connect(
-  (s) => ({active: s.editor.editor.active})
+  (s) => ({active: s.getIn(['editor', 'active'])})
 )(ModelViewer);
+
+const getSelectedModel = (s) => {
+  let id = s.getIn(['editor', 'modelId']);
+  return s.getIn(['model', 'models', id], {});
+};

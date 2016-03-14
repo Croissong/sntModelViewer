@@ -10,7 +10,8 @@ import { actions as editorActions } from 'redux/modules/editor';
 const ConnectedModelDefSelection = connect(
   (state) => (
     {
-      modelDefs: state.modelDefs
+      modelDefs: state.getIn('modelDef', 'modelDefs'),
+      selected: state.getIn('modelDef', 'selected')
     }
   ),
   (dispatch) => (
@@ -27,15 +28,15 @@ const ConnectedModelDefSelection = connect(
 const ConnectedIndexedModelViewer = connect(
   (state) => (
     {
-      modelDef: state.modelDefs.selected,
-      models: state.model[state.modelDefs.selected]
+      models: getIndexedModels(state),
+      fetching: isFetching(state)
     }
   ),
   (dispatch) => (
     {
-      editModel: (modelDef, id) => {
-        dispatch(fetchModel(modelDef, id, editorActions.editModel));
-        dispatch(iModelActions.selectIndexedModel(modelDef, id));
+      editModel: (id) => {
+        dispatch(fetchModel(id, editorActions.editModel));
+        dispatch(iModelActions.selectIndexedModel(id));
       }
     }
   )
@@ -51,3 +52,16 @@ export default class ModelSelection extends React.Component {
     );
   }
 }
+
+const getIndexedModels = (state) => {
+  if (isFetching(state)) return [];
+  let md = state.getIn(['modelDefs', 'selected']);
+  return state.getIn(['model', md])
+              .map(id => state.getIn(['model', 'models', id]))
+              .toJS();
+};
+
+const isFetching = (state) => {
+  let md = state.getIn(['modelDef', 'selected']);
+  return state.getIn(['model', 'fetching_indexed']).includes(md);
+};

@@ -1,14 +1,13 @@
-import { combineReducers } from 'redux';
-import { formReducer, actionTypes } from 'react-redux-form';
+import { actionTypes } from 'react-redux-form';
+import Immutable from 'immutable';
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 const EDIT_MODEL = 'EDIT_MODEL';
-function editModel (modelDef, id, model) {
+function editModel (id, model) {
   return {
     type: EDIT_MODEL,
-    modelDef,
     id,
     model
   };
@@ -72,12 +71,11 @@ export function saveModel (model) {
 // [ACTION]: (state, action) => ...
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [EDIT_MODEL]: (s, a) => s.toSeq()
-                           .set('active', true)
-                           .set('model', {modelDef: a.modelDef, id: a.id})
-                           .set('editedModel', a.model),
-  [actionTypes.CHANGE]: (s, a) => s.setIn(['editedModel', a.model], a.value),
-  [RESET_MODEL]: (s, a) => s.set('editedModel', a.model),
+  [EDIT_MODEL]: (s, a) => s.set('active', true)
+                           .set('modelId', a.id)
+                           .set('editedModel', Immutable.fromJS(a.model)),
+  [actionTypes.CHANGE]: (s, a) => s.mergeIn(['editedModel', a.model], a.value),
+  [RESET_MODEL]: (s, a) => s.set('editedModel', Immutable.fromJS(a.model)),
   [SAVING_MODEL]: (s, a) => s.set('saving', true),
   [SAVED_MODEL]: (s, a) => s.delete('saving')
 };
@@ -86,17 +84,12 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 
-const initialState = {
+const initialState = Immutable.fromJS({
   active: false
-};
+});
 
-function editorReducer (state = initialState, action) {
+export default function editorReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;
 };
-
-export default combineReducers({
-  editor: editorReducer,
-  editorForm: formReducer('editor.editor.editedModel')
-});

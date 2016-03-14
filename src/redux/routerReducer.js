@@ -3,7 +3,7 @@ import {
   LOCATION_CHANGE
 } from 'react-router-redux';
 
-const initialState = Immutable.fromJS({
+const initialState = Immutable.Map({
   locationBeforeTransitions: null
 });
 

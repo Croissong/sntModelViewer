@@ -1,3 +1,5 @@
+import Immutable from 'immutable';
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -47,18 +49,17 @@ export const actions = {
 const ACTION_HANDLERS = {
   [SELECT_MODELDEF]: (s, a) => s.set('selected', a.id),
   [REQUEST_MODELDEFS]: (s, a) => s.set('fetching', true),
-  [RECEIVE_MODELDEFS]: (s, a) => s.toSeq()
-                                  .set('fetching', false)
-                                  .set('modelDefs', a.modelDefs)
+  [RECEIVE_MODELDEFS]: (s, a) => s.set('fetching', false)
+                                  .set('modelDefs', Immutable.fromJS(a.modelDefs))
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
+const initialState = Immutable.fromJS({
   selected: 'ModelDef1',
   modelDefs: ['ModelDef1', 'ModelDef2', 'ModelDef3']
-};
+});
 
 export default function modelDefsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];

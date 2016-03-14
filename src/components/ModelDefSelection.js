@@ -3,7 +3,8 @@ import React, { PropTypes } from 'react';
 export default class ModelDefSelection extends React.Component {
 
   static propTypes = {
-    modelDefs: PropTypes.object.isRequired,
+    modelDefs: PropTypes.array.isRequired,
+    selected: PropTypes.string.isRequired,
     fetchModelDefs: PropTypes.func.isRequired,
     selectModelDef: PropTypes.func.isRequired
   }
@@ -14,12 +15,11 @@ export default class ModelDefSelection extends React.Component {
   };
 
   render () {
-    let defs = this.props.modelDefs.modelDefs;
-    let selected = defs[this.props.modelDefs.selected];
+    let p = this.props;
     return (
       <div>
-        <select name='modeldefs' id='modeldefs' value={selected} onChange={this.select}>
-          {defs.map(def =>
+        <select name='modeldefs' id='modeldefs' value={p.selected} onChange={this.select}>
+          {p.modelDefs.map(def =>
             <option
               key={def}
               value={def}

@@ -1,25 +1,23 @@
 import React, { PropTypes } from 'react';
 import { Table, Td, Tr } from 'reactable';
-import EditButton from 'components/EditButton';
-import i from 'icepick';
+import EditButton from './EditButton';
 
 export default class IndexedModelViewer extends React.Component {
 
   static propTypes = {
-    modelDef: PropTypes.string.isRequired,
-    models: PropTypes.object.isRequired,
+    models: PropTypes.array.isRequired,
+    fetching: PropTypes.bool.isRequired,
     editModel: PropTypes.func.isRequired
   };
 
   fillTable = (models) => (
-    Object.keys(models).map(i => {
-      let field = models[i].indexed_fields;
+    models.map(model => {
+      let fields = model.indexed_fields;
       return (
-        <Tr key={field.id} data={field}>
-          <Td key={field.id} column=''>
+        <Tr key={model.id} data={fields}>
+          <Td key={model.id} column=''>
             <EditButton
-              modelDef={this.props.modelDef}
-              id={field.id}
+              id={model.id}
               editModel={this.props.editModel}
             />
           </Td>
@@ -30,12 +28,10 @@ export default class IndexedModelViewer extends React.Component {
 
   render () {
     let p = this.props;
-    // un-freeze (icepick) object when interfacing with other library
-    let models = i.thaw(p.models);
-    if (!p.models.indexed_fetching) {
+    if (!p.fetching) {
       return (
         <Table className='table'>
-          {this.fillTable(models)}
+          {this.fillTable(p.models)}
         </Table>
       );
     }
