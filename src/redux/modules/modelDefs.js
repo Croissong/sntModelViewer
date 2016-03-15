@@ -10,10 +10,10 @@ function request () {
   };
 }
 const RECEIVE_MODELDEFS = 'RECEIVE_MODELDEFS';
-function receive (defs) {
+function receive (modelDefs) {
   return {
     type: RECEIVE_MODELDEFS,
-    defs,
+    modelDefs,
     receivedA: new Date().toLocaleString()
   };
 }

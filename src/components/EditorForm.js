@@ -21,19 +21,20 @@ export default class EditorForm extends React.Component {
     return str === 'java.lang.Class' ? str : typeof (str);
   };
 
-  // checkValidity = (val) => this.props.checkValidity('editor.editor.editedModel.' + val);
+  checkValidity = (f) => this.props.checkValidity('editor.editedModel.' + f);
 
   createFormFields = () => {
     let fields = this.props.editedFields;
-    return Object.keys(fields).map(f => {
-      let type = this.getType(fields[f]);
+    return Object.keys(fields).map(field => {
+      let type = this.getType(fields[field]);
       return (
-        <Field key={f} model={f}>
-          <label>{f}</label><br/>
+        <Field key={field} model={field}>
+          <label>{field}</label><br/>
           <label>({type})</label><br/>
           <input
-            id={f}
-            value={fields[f]}>
+            id={field}
+            value={fields[field]}
+            onBlur={this.checkValidity.bind(field)}>
           </input>
         </Field>
       );

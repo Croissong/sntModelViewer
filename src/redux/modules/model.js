@@ -44,7 +44,7 @@ export const actions = {
 
 const ACTION_HANDLERS = {
   [REQUEST_MODEL]: (s, a) => s.update('fetching', list => list.push(a.id)),
-  [RECEIVE_MODEL]: (s, a) => s.setIn(['models', a.id, 'fields'], a.model)
+  [RECEIVE_MODEL]: (s, a) => s.setIn(['models', a.id, 'fields'], Immutable.Map(a.model))
                               .update('fetching', list => list.filter(id => id !== a.id)),
   ...index_handlers
 };

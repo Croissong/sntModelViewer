@@ -14,7 +14,7 @@ function editModel (id, model) {
 }
 
 const RESET_MODEL = 'RESET_MODEL';
-function resetModel (_, __, model) {
+function resetModel (_, model) {
   return {
     type: RESET_MODEL,
     model
@@ -46,9 +46,7 @@ export const actions = {
 
 export function saveModel (model) {
   return function (dispatch) {
-    let id = model.modelDef + '_' + model.fields.id;
-    let fields = model.fields;
-    let body = JSON.stringify({id: id, fields: fields});
+    let body = JSON.stringify({id: model.id, fields: model.fields});
     dispatch(savingModel(model));
     return fetch(
       'http://localhost:3005/models/',
@@ -73,9 +71,9 @@ export function saveModel (model) {
 const ACTION_HANDLERS = {
   [EDIT_MODEL]: (s, a) => s.set('active', true)
                            .set('modelId', a.id)
-                           .set('editedModel', Immutable.fromJS(a.model)),
-  [actionTypes.CHANGE]: (s, a) => s.mergeIn(['editedModel', a.model], a.value),
-  [RESET_MODEL]: (s, a) => s.set('editedModel', Immutable.fromJS(a.model)),
+                           .set('editedFields', Immutable.fromJS(a.model)),
+  [actionTypes.CHANGE]: (s, a) => s.mergeIn(['editedFields', a.model], a.value),
+  [RESET_MODEL]: (s, a) => s.set('editedFields', Immutable.fromJS(a.model)),
   [SAVING_MODEL]: (s, a) => s.set('saving', true),
   [SAVED_MODEL]: (s, a) => s.delete('saving')
 };

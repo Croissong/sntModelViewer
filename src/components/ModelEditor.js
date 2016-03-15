@@ -7,7 +7,8 @@ export default class ModelEditor extends React.Component {
     model: PropTypes.object,
     editedFields: PropTypes.object,
     resetFields: PropTypes.func.isRequired,
-    saveModel: PropTypes.func.isRequired
+    saveModel: PropTypes.func.isRequired,
+    checkValidity: PropTypes.func.isRequired
   };
 
   save = () => this.props.saveModel(this.props.model, this.props.editedFields);
@@ -22,6 +23,7 @@ export default class ModelEditor extends React.Component {
           editedFields={p.editedFields}
           resetFields={this.reset}
           saveModel={this.save}
+          checkValidity={p.checkValidity}
         />
       );
     }
