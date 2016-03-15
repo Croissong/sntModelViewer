@@ -74,6 +74,10 @@
         "name": "Model1",
         "indexedField": {
           "type": "java.lang.Integer",
+          "validator": {
+            "type": "number",
+            "pattern": "\\d+"
+          },
           "value": 18
         },
         "field1": {
@@ -89,6 +93,10 @@
         "name": "Model2",
         "indexedField": {
           "type": "java.lang.Integer",
+          "validator": {
+            "type": "number",
+            "pattern": "\\d+"
+          },
           "value": 19
         },
         "field1": {
@@ -104,6 +112,10 @@
         "name": "Model3",
         "indexedField": {
           "type": "java.lang.Integer",
+          "validator": {
+            "type": "number",
+            "pattern": "\\d+"
+          },
           "value": 20
         },
         "field1": {
@@ -119,6 +131,10 @@
         "name": "Model1",
         "indexedField": {
           "type": "java.lang.Integer",
+          "validator": {
+            "type": "number",
+            "pattern": "\\d+"
+          },
           "value": 18
         },
         "field1": "string"
@@ -183,9 +199,6 @@
         },
         "field1": false
       }
-    },
-    {
-      "id": "156534c4-2456-4799-9b04-892df434b369"
     }
   ]
 }

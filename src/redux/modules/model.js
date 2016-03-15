@@ -12,7 +12,7 @@ function requestModel (id) {
   };
 }
 
-const RECEIVE_MODEL = 'RECEIVE_MODEL';
+export const RECEIVE_MODEL = 'RECEIVE_MODEL';
 function receiveModel (id, model) {
   return {
     type: RECEIVE_MODEL,
@@ -28,8 +28,9 @@ export function fetchModel (id, action) {
     return fetch('http://localhost:3005/models/' + id)
        .then(response => response.json())
        .then(json => {
-         dispatch(receiveModel(id, json.fields));
-         if (action) dispatch(action(id, json.fields));
+         let model = Immutable.fromJS(json.fields);
+         dispatch(receiveModel(id, model));
+         if (action) dispatch(action(id, model));
        });
   };
 }
@@ -44,7 +45,7 @@ export const actions = {
 
 const ACTION_HANDLERS = {
   [REQUEST_MODEL]: (s, a) => s.update('fetching', list => list.push(a.id)),
-  [RECEIVE_MODEL]: (s, a) => s.setIn(['models', a.id, 'fields'], Immutable.Map(a.model))
+  [RECEIVE_MODEL]: (s, a) => s.setIn(['models', a.id, 'fields'], a.model)
                               .update('fetching', list => list.filter(id => id !== a.id)),
   ...index_handlers
 };

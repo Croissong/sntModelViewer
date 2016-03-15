@@ -1,5 +1,7 @@
-import { actionTypes } from 'react-redux-form';
+import { actionTypes as formActions } from 'react-redux-form';
 import Immutable from 'immutable';
+import { RECEIVE_MODEL } from './model';
+import Validator from 'jsonschema';
 
 // ------------------------------------
 // Actions
@@ -37,16 +39,26 @@ function savedModel (model) {
   };
 }
 
+const VALIDATE_FIELD = 'VALIDATE_FIELD';
+function validateField (field, schema) {
+  return {
+    type: VALIDATE_FIELD,
+    field,
+    schema
+  };
+}
+
 export const actions = {
   editModel,
   resetModel,
   savingModel,
-  savedModel
+  savedModel,
+  validateField
 };
 
 export function saveModel (model) {
   return function (dispatch) {
-    let body = JSON.stringify({id: model.id, fields: model.fields});
+    let body = JSON.stringify({id: model.get('id'), fields: model.get('fields')});
     dispatch(savingModel(model));
     return fetch(
       'http://localhost:3005/models/',
@@ -64,6 +76,27 @@ export function saveModel (model) {
   };
 }
 
+const getParser = (model) => (
+  Object.entries(model).reduce((parsers, [key, value]) => {
+    let pattern = typeof value === 'object' ? value.getIn(['validator', 'pattern']) : false;
+    if (pattern) {
+      let regex = new RegExp('^' + pattern, 'g');
+      parsers[key] = (val) => val.replace(regex, '');
+    } else {
+      parsers[key] = (_) => {};
+    }
+    return parsers;
+  }, {})
+);
+
+const getValidator = (model) => {
+  return Object.keys(model).reduce((validators, field) => {
+    let schema = model[field].validator;
+    validators[field] = (val) => Validator.validate(val, schema);
+    return validators;
+  }, {});
+};
+
 // ------------------------------------
 // Action Handlers
 // [ACTION]: (state, action) => ...
@@ -71,11 +104,13 @@ export function saveModel (model) {
 const ACTION_HANDLERS = {
   [EDIT_MODEL]: (s, a) => s.set('active', true)
                            .set('modelId', a.id)
-                           .set('editedFields', Immutable.fromJS(a.model)),
-  [actionTypes.CHANGE]: (s, a) => s.mergeIn(['editedFields', a.model], a.value),
-  [RESET_MODEL]: (s, a) => s.set('editedFields', Immutable.fromJS(a.model)),
+                           .set('editedFields', a.model),
+  [formActions.CHANGE]: (s, a) => s.setIn(['editedFields', a.model], a.value),
+  [RESET_MODEL]: (s, a) => s.set('editedFields', a.model),
   [SAVING_MODEL]: (s, a) => s.set('saving', true),
-  [SAVED_MODEL]: (s, a) => s.delete('saving')
+  [SAVED_MODEL]: (s, a) => s.delete('saving'),
+  [RECEIVE_MODEL]: (s, a) => s.mergeIn(['parsers', a.id], getParser(a.model))
+                              .mergeIn(['validators', a.id], getValidator(a.model))
 };
 
 // ------------------------------------

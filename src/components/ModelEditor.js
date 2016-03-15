@@ -1,14 +1,15 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes as PT } from 'react';
 import EditorForm from 'components/EditorForm';
 
 export default class ModelEditor extends React.Component {
 
   static propTypes = {
-    model: PropTypes.object,
-    editedFields: PropTypes.object,
-    resetFields: PropTypes.func.isRequired,
-    saveModel: PropTypes.func.isRequired,
-    checkValidity: PropTypes.func.isRequired
+    model: PT.object,
+    editedFields: PT.object,
+    resetFields: PT.func.isRequired,
+    saveModel: PT.func.isRequired,
+    parsers: PT.shape({ field: PT.func }).isRequired,
+    validators: PT.shape({ field: PT.func }).isRequired
   };
 
   save = () => this.props.saveModel(this.props.model, this.props.editedFields);
@@ -23,7 +24,8 @@ export default class ModelEditor extends React.Component {
           editedFields={p.editedFields}
           resetFields={this.reset}
           saveModel={this.save}
-          checkValidity={p.checkValidity}
+          parsers={p.parsers}
+          validators={p.validators}
         />
       );
     }

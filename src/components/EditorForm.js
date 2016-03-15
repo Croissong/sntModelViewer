@@ -1,52 +1,25 @@
-import React, { PropTypes } from 'react';
-import { Field } from 'react-redux-form';
+import React, { PropTypes as PT} from 'react';
+import FormFields from './FormFields';
 
 export default class EditorForm extends React.Component {
 
   static propTypes = {
-    editedFields: PropTypes.object.isRequired,
-    resetFields: PropTypes.func.isRequired,
-    saveModel: PropTypes.func.isRequired
-  };
-
-  getVal = (field) => (
-    typeof (field) === 'object' ? field.value : field
-  );
-
-  getType = (field) => {
-    return typeof (field) === 'object' ? this.parseType(field.type) : typeof (field);
-  };
-
-  parseType = (str) => {
-    return str === 'java.lang.Class' ? str : typeof (str);
-  };
-
-  checkValidity = (f) => this.props.checkValidity('editor.editedModel.' + f);
-
-  createFormFields = () => {
-    let fields = this.props.editedFields;
-    return Object.keys(fields).map(field => {
-      let type = this.getType(fields[field]);
-      return (
-        <Field key={field} model={field}>
-          <label>{field}</label><br/>
-          <label>({type})</label><br/>
-          <input
-            id={field}
-            value={fields[field]}
-            onBlur={this.checkValidity.bind(field)}>
-          </input>
-        </Field>
-      );
-    }
-    );
+    editedFields: PT.object.isRequired,
+    resetFields: PT.func.isRequired,
+    saveModel: PT.func.isRequired,
+    parsers: PT.shape({ field: PT.func }).isRequired,
+    validators: PT.shape({ field: PT.func }).isRequired
   };
 
   render () {
     let p = this.props;
     return (
       <form>
-        {this.createFormFields()}
+        <FormFields
+          fields={p.editedFields}
+          parsers={p.parsers}
+          validators={p.validators}
+        />
         <button type='button' onClick={p.saveModel}>
           Save
         </button>
@@ -55,5 +28,5 @@ export default class EditorForm extends React.Component {
         </button>
       </form>
     );
-  }
-}
+  };
+};
