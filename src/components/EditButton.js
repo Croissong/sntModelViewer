@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes as PT } from 'react';
 
 export default class EditButton extends React.Component {
 
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    editModel: PropTypes.func.isRequired
+    id: PT.string.isRequired,
+    editModel: PT.func.isRequired
   }
 
   onClick = () => this.props.editModel(this.props.id);

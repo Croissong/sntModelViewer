@@ -10,7 +10,7 @@ import { actions as editorActions } from 'redux/modules/editor';
 const ConnectedModelDefSelection = connect(
   (state) => (
     {
-      modelDefs: state.getIn(['modelDef', 'modelDefs']).toJS(),
+      modelDefs: state.getIn(['modelDef', 'modelDefs']),
       selected: state.getIn(['modelDef', 'selected'])
     }
   ),
@@ -57,8 +57,7 @@ const getIndexedModels = (state) => {
   if (isFetching(state)) return [];
   let md = state.getIn(['modelDef', 'selected']);
   return state.getIn(['model', md])
-              .map(id => state.getIn(['model', 'models', id]))
-              .toJS();
+              .map(id => state.getIn(['model', 'models', id]));
 };
 
 const isFetching = (state) => {

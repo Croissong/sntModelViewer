@@ -6,6 +6,10 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import makeRoutes from './routes';
 import Root from './containers/dev/Root';
 import configureStore from './redux/configureStore';
+import extensiblePolyfill from 'extensible-polyfill';
+
+// jm: immutable destructuring
+extensiblePolyfill('immutable');
 
 // Configure history for react-router
 const browserHistory = useRouterHistory(createBrowserHistory)({

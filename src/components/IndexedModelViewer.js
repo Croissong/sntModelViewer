@@ -1,37 +1,36 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes as PT } from 'react';
+import IPT from 'react-immutable-proptypes';
 import { Table, Td, Tr } from 'reactable';
 import EditButton from './EditButton';
 
 export default class IndexedModelViewer extends React.Component {
 
   static propTypes = {
-    models: PropTypes.array.isRequired,
-    fetching: PropTypes.bool.isRequired,
-    editModel: PropTypes.func.isRequired
+    models: IPT.list.isRequired,
+    fetching: PT.bool.isRequired,
+    editModel: PT.func.isRequired
   };
 
-  fillTable = (models) => (
-    models.map(model => {
-      let fields = model.indexed_fields;
-      return (
-        <Tr key={model.id} data={fields}>
-          <Td key={model.id} column=''>
-            <EditButton
-              id={model.id}
-              editModel={this.props.editModel}
-            />
-          </Td>
-        </Tr>
-      );
-    })
-  );
+  fillTable = () => {
+    let { models, editModel } = this.props;
+    return models.map(({ id, indexed_fields }) => (
+      <Tr key={id} data={indexed_fields.toJS()}>
+        <Td column=''>
+          <EditButton
+            id={id}
+            editModel={editModel}
+          />
+        </Td>
+      </Tr>
+    )).toJS();
+  };
 
   render () {
-    let p = this.props;
-    if (!p.fetching) {
+    let { fetching } = this.props;
+    if (!fetching) {
       return (
         <Table className='table'>
-          {this.fillTable(p.models)}
+          {this.fillTable()}
         </Table>
       );
     }

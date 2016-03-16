@@ -7,9 +7,10 @@ import { actions, saveModel } from 'redux/modules/editor';
 const ConnectedModelEditor = connect(
   (state) => ({
     model: getSelectedModel(state),
-    editedFields: state.getIn(['editor', 'editedFields']).toJS(),
-    parsers: state.getIn(['editor', 'parsers', state.getIn(['editor', 'modelId'])]).toJS(),
-    validators: state.getIn(['editor', 'validators', state.getIn(['editor', 'modelId'])]).toJS()
+    editedFields: state.getIn(['editor', 'editedFields']),
+    parsers: state.getIn(['editor', 'parsers', state.getIn(['editor', 'modelId'])]),
+    validators: state.getIn(['editor', 'validators', state.getIn(['editor', 'modelId'])]),
+    errors: state.getIn(['editor', 'errors'])
   }),
   (dispatch) => ({
     resetFields: (model) => dispatch(fetchModel(model.get('id'),

@@ -80,13 +80,14 @@ const getParser = (model) => (
   model.entrySeq().reduce((parsers, [key, value]) => {
     let pattern = typeof value === 'object' ? value.getIn(['validator', 'pattern']) : false;
     if (pattern) {
-      let regex = new RegExp('^[\' + pattern + ']', 'g');
-      parsers[key] = (val) => {
-        let x = val.replace(regex, '');
-        return x;
-      };
+      let regex = new RegExp(pattern);
+      parsers[key] = (val) => (
+        val.replace(new RegExp('((?:' + regex.source + ')+)|.', 'g'), (full, matched) => (
+          (typeof matched !== 'undefined') ? matched : ''
+        ))
+      );
     } else {
-      parsers[key] = (_) => {};
+      parsers[key] = (val) => (val);
     }
     return parsers;
   }, {})
@@ -96,13 +97,22 @@ const getValidator = (model) => (
   model.entrySeq().reduce((validators, [key, value]) => {
     let schema = typeof value === 'object' ? value.get('validator') : false;
     if (schema) {
-      validators[key] = (val) => Validator.validate(val, schema);
+      validators[key] = (val) => {
+        return Validator.validate(val, schema.toJS());
+      };
     } else {
-      validators[key] = (_) => {};
+      validators[key] = (_) => ({valid: true});
     }
     return validators;
   }, {})
 );
+
+const setValidity = (state, field, validity) => {
+  if (!validity.valid) {
+    state = state.setIn(['errors', field], validity.errors);
+  }
+  return state;
+};
 
 // ------------------------------------
 // Action Handlers
@@ -117,7 +127,8 @@ const ACTION_HANDLERS = {
   [SAVING_MODEL]: (s, a) => s.set('saving', true),
   [SAVED_MODEL]: (s, a) => s.delete('saving'),
   [RECEIVE_MODEL]: (s, a) => s.mergeIn(['parsers', a.id], getParser(a.model))
-                              .mergeIn(['validators', a.id], getValidator(a.model))
+                              .mergeIn(['validators', a.id], getValidator(a.model)),
+  [formActions.SET_VALIDITY]: (s, a) => setValidity(s, a.model, a.validity.schema)
 };
 
 // ------------------------------------

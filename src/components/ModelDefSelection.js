@@ -1,12 +1,13 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes as PT} from 'react';
+import IPT from 'react-immutable-proptypes';
 
 export default class ModelDefSelection extends React.Component {
 
   static propTypes = {
-    modelDefs: PropTypes.array.isRequired,
-    selected: PropTypes.string.isRequired,
-    fetchModelDefs: PropTypes.func.isRequired,
-    selectModelDef: PropTypes.func.isRequired
+    modelDefs: IPT.list.isRequired,
+    selected: PT.string.isRequired,
+    fetchModelDefs: PT.func.isRequired,
+    selectModelDef: PT.func.isRequired
   }
 
   select = (e) => {
@@ -15,11 +16,11 @@ export default class ModelDefSelection extends React.Component {
   };
 
   render () {
-    let p = this.props;
+    let {modelDefs, fetchModelDefs, selected} = this.props;
     return (
       <div>
-        <select name='modeldefs' id='modeldefs' value={p.selected} onChange={this.select}>
-          {p.modelDefs.map(def =>
+        <select name='modeldefs' id='modeldefs' value={selected} onChange={this.select}>
+          {modelDefs.map(def =>
             <option
               key={def}
               value={def}
@@ -27,7 +28,7 @@ export default class ModelDefSelection extends React.Component {
             />
            )}
         </select>
-        <button type='button' onClick={this.props.fetchModelDefs}> Refresh Modeldefs </button>
+        <button type='button' onClick={fetchModelDefs}> Refresh Modeldefs </button>
       </div>
     );
   }

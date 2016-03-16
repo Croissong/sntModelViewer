@@ -101,6 +101,9 @@
         },
         "field1": {
           "type": "java.lang.Boolean",
+          "validator": {
+            "type": "boolean"
+          },
           "value": false
         }
       }

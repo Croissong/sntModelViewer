@@ -9,7 +9,8 @@ export default class ModelEditor extends React.Component {
     resetFields: PT.func.isRequired,
     saveModel: PT.func.isRequired,
     parsers: PT.shape({ field: PT.func }).isRequired,
-    validators: PT.shape({ field: PT.func }).isRequired
+    validators: PT.shape({ field: PT.func }).isRequired,
+    errors: PT.object
   };
 
   save = () => this.props.saveModel(this.props.model, this.props.editedFields);
@@ -18,7 +19,7 @@ export default class ModelEditor extends React.Component {
 
   render () {
     let p = this.props;
-    if (!p.model.fetching) {
+    if (!p.model.get('fetching')) {
       return (
         <EditorForm
           editedFields={p.editedFields}
@@ -26,6 +27,7 @@ export default class ModelEditor extends React.Component {
           saveModel={this.save}
           parsers={p.parsers}
           validators={p.validators}
+          errors={p.errors}
         />
       );
     }
