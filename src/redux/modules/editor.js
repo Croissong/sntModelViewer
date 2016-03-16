@@ -77,11 +77,14 @@ export function saveModel (model) {
 }
 
 const getParser = (model) => (
-  Object.entries(model).reduce((parsers, [key, value]) => {
+  model.entrySeq().reduce((parsers, [key, value]) => {
     let pattern = typeof value === 'object' ? value.getIn(['validator', 'pattern']) : false;
     if (pattern) {
-      let regex = new RegExp('^' + pattern, 'g');
-      parsers[key] = (val) => val.replace(regex, '');
+      let regex = new RegExp('^[\' + pattern + ']', 'g');
+      parsers[key] = (val) => {
+        let x = val.replace(regex, '');
+        return x;
+      };
     } else {
       parsers[key] = (_) => {};
     }
@@ -89,13 +92,17 @@ const getParser = (model) => (
   }, {})
 );
 
-const getValidator = (model) => {
-  return Object.keys(model).reduce((validators, field) => {
-    let schema = model[field].validator;
-    validators[field] = (val) => Validator.validate(val, schema);
+const getValidator = (model) => (
+  model.entrySeq().reduce((validators, [key, value]) => {
+    let schema = typeof value === 'object' ? value.get('validator') : false;
+    if (schema) {
+      validators[key] = (val) => Validator.validate(val, schema);
+    } else {
+      validators[key] = (_) => {};
+    }
     return validators;
-  }, {});
-};
+  }, {})
+);
 
 // ------------------------------------
 // Action Handlers
