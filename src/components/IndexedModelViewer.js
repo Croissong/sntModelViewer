@@ -13,8 +13,8 @@ export default class IndexedModelViewer extends React.Component {
 
   fillTable = () => {
     let { models, editModel } = this.props;
-    return models.map(({ id, indexed_fields }) => (
-      <Tr key={id} data={indexed_fields.toJS()}>
+    return models.map(({ id, fields }) => (
+      <Tr key={id} data={fields.toJS()}>
         <Td column=''>
           <EditButton
             id={id}

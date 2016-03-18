@@ -1,16 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import ModelDefSelection from 'components/ModelDefSelection';
-import { actions as defActions, fetchModelDefs } from 'redux/modules/modelDefs';
+import {selectModelDef} from 'redux/modules/modelDef';
 import IndexedModelViewer from 'components/IndexedModelViewer';
-import { fetchModel } from 'redux/modules/model';
-import { actions as iModelActions, fetchIndexedModels } from 'redux/modules/indexedModel';
-import { actions as editorActions } from 'redux/modules/editor';
+import {selectModel} from 'redux/modules/indexedFields';
+import {fetchIndexedFields, fetchModelDefs, fetchFields} from 'redux/utils/api';
+import {editModel} from 'redux/modules/editor';
 
 const ConnectedModelDefSelection = connect(
   (state) => (
     {
-      modelDefs: state.getIn(['modelDef', 'modelDefs']),
+      modelDefs: state.getIn(['modelDef', 'entities']),
       selected: state.getIn(['modelDef', 'selected'])
     }
   ),
@@ -18,8 +18,8 @@ const ConnectedModelDefSelection = connect(
     {
       fetchModelDefs: () => dispatch(fetchModelDefs()),
       selectModelDef: (modelDef) => {
-        dispatch(fetchIndexedModels(modelDef));
-        dispatch(defActions.selectModelDef(modelDef));
+        dispatch(fetchIndexedFields(modelDef));
+        dispatch(selectModelDef(modelDef));
       }
     }
   )
@@ -28,15 +28,15 @@ const ConnectedModelDefSelection = connect(
 const ConnectedIndexedModelViewer = connect(
   (state) => (
     {
-      models: getIndexedModels(state),
+      models: getIndexedFields(state),
       fetching: isFetching(state)
     }
   ),
   (dispatch) => (
     {
       editModel: (id) => {
-        dispatch(fetchModel(id, editorActions.editModel));
-        dispatch(iModelActions.selectIndexedModel(id));
+        dispatch(fetchFields(id, editModel));
+        dispatch(selectModel(id));
       }
     }
   )
@@ -53,11 +53,12 @@ export default class ModelSelection extends React.Component {
   }
 }
 
-const getIndexedModels = (state) => {
+const getIndexedFields = (state) => {
   if (isFetching(state)) return [];
   let md = state.getIn(['modelDef', 'selected']);
-  return state.getIn(['model', md])
-              .map(id => state.getIn(['model', 'models', id]));
+  let ids = state.getIn(['model', md]);
+  return ids.map(id => ({id: id,
+                         fields: state.getIn(['model', 'indexedFields', id])}));
 };
 
 const isFetching = (state) => {

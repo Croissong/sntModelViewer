@@ -2,27 +2,20 @@ import index_handlers from './indexedFields';
 import Immutable from 'immutable';
 import {createAction, createReducer} from 'redux-act';
 
-
 export const requestFields = createAction('request fields for model with [id]');
 
 const requestFieldsHandler = (state, id) => {
-  return state.update('fetching', list => list.push(id)),
-}
+  return state.update('fetching', list => list.push(id));
+};
 
 export const receiveFields = createAction('receive fields model with [id]',
-                                          (modelDef, fields) => ({modelDef, fields}),
+                                          (id, fields) => ({id, fields}),
                                           (_) => ({receivedAt: new Date().toLocaleString()}));
 
 const receiveFieldsHandler = (state, id, fields) => {
-  state.setIn(['models', id, 'fields'], fields)
-       .update('fetching', list => list.filter(id => id !== id)),
-}
-
-export default createReducer({
-  [requestFields]: (state, payload) => requestFieldsHandler(state, payload),
-  [receiveFields]: (state, payload) => receiveFieldsHandler(state, payload.modelDef, payload.fields),
-  ...index_handlers
-}, initialState);
+  return state.setIn(['fields', id], fields)
+              .update('fetching', list => list.filter(val => val !== id));
+};
 
 const initialState = Immutable.fromJS({
   fetching_indexed: [],
@@ -46,3 +39,9 @@ const initialState = Immutable.fromJS({
     }
   }
 });
+
+export default createReducer({
+  [requestFields]: (state, payload) => requestFieldsHandler(state, payload),
+  [receiveFields]: (state, payload) => receiveFieldsHandler(state, payload.id, payload.fields),
+  ...index_handlers
+}, initialState);

@@ -6,29 +6,31 @@ export const selectModel = createAction('select model with [id]');
 const selectModelHandler = (state, id) => {
   let modelDef = state.getIn('modelDefs', 'selected');
   return state.setIn(['selected', modelDef], id);
-}
-  
+};
+
 export const requestIndexedFields = createAction('request indexed fields for all models of [modelDef]');
 
 const requestIndexedFieldsHandler = (state, modelDef) => {
   return state.update('index_fetching', list => list.push(modelDef));
-}
+};
 
 export const receiveIndexedFields = createAction('receive indexed fields for all models of [modelDef]',
                                                  (modelDef, fields) => ({modelDef, fields}),
                                                  (_) => ({receivedAt: new Date().toLocaleString()}));
 
 const receiveIndexedFieldsHandler = (state, modelDef, fields) => {
-  let models = mapById(a.modelDef, a.models);
-  return s.update('fetching_indexed', val => val.filter(mD => mD !== a.modelDef))
-          .set(a.modelDef, Immutable.List.of(...Object.keys(models)))
-          .mergeDeepIn(['models'], models);
-}
+  let models = mapById(modelDef, models);
+  return state.update('fetching_indexed', val => val.filter(mD => mD !== modelDef))
+              .set(modelDef, Immutable.List.of(...Object.keys(models)))
+              .mergeDeepIn(['models'], models);
+};
 
-export default handlers = {
-  [selectModel]: (state, payload) => => selectModelHandler(state, payload),
+export default {
+  [selectModel]: (state, payload) => selectModelHandler(state, payload),
   [requestIndexedFields]: (state, payload) => requestIndexedFieldsHandler(state, payload),
-  [receiveIndexedFields:] (state, payload) => receiveIndexedFields(state, payload.modelDef, payload.fields)
+  [receiveIndexedFields]: (state, payload) => receiveIndexedFieldsHandler(state,
+                                                                          payload.modelDef,
+                                                                          payload.fields)
 };
 
 const mapById = (modelDef, models) => models.reduce((obj, m) => {
@@ -40,5 +42,3 @@ const mapById = (modelDef, models) => models.reduce((obj, m) => {
   };
   return obj;
 }, {});
-
-

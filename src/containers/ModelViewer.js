@@ -41,5 +41,5 @@ export default connect(
 
 const getSelectedModel = (s) => {
   let id = s.getIn(['editor', 'modelId']);
-  return s.getIn(['model', 'models', id], {});
+  return s.getIn(['model', 'fields', id], {});
 };
