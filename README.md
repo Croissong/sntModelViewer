@@ -90,11 +90,13 @@ Alternatively, if you just want to stick with this project and want to start a f
 ```shell
 git fetch origin new-project                      # Make sure you've fetched the latest copy of this branch from remote
 git checkout new-project                          # Checkout the new-project branch
-git checkout -b <your-project-name> new-project   # Create a branch based on the new-project branch
-$ npm install                                     # There are a few npm dependencies in this branch that aren't in master
-$ npm run make:project                            # Make your new project
 $ rm -rf .git && git init                         # Start a new git repository
 ```
+
+Great, you now have a fresh project! There are a few titles you'll probably want to update, and then you're good to go:
+
+* `~/package.json` - package name
+* `~/src/index.html` - template title tag
 
 Usage
 -----
@@ -310,6 +312,10 @@ By default this repo does not bundle the babel polyfill in order to reduce bundl
 ### Internationalization Support
 
 In keeping with the goals of this project, no internationalization support is provided out of the box. However, [juanda99](https://github.com/juanda99) has been kind enough to maintain a fork of this repo with internationalization support, [check it out!](https://github.com/juanda99/react-redux-starter-kit)
+
+### Deployment Issues (Generally Heroku)
+
+Make sure that your environment is installing both dependencies _and_ devDependencies, since the latter are required to build the application. You can also reference [this issue](https://github.com/davezuko/react-redux-starter-kit/issues/571) for more details.
 
 ### High editor CPU usage after compilation
 
