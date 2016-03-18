@@ -3,15 +3,17 @@ import {requestIndexedFields, receiveIndexedFields} from '../modules/indexedFiel
 import {requestFields, receiveFields} from '../modules/model';
 import {receiveModelDefs, requestModelDefs} from '../modules/modelDef';
 import {savingModel, savedModel} from '../modules/editor';
+import {normalize, Schema, arrayOf} from 'normalizr';
 
 export const fetchIndexedFields = (modelDef) => {
   return (dispatch) => {
     dispatch(requestIndexedFields(modelDef));
     return fetch('http://localhost:3005/indexedModels/' + modelDef)
        .then(response => response.json())
-       .then(json =>
-         dispatch(receiveIndexedFields(modelDef, json.fields))
-       );
+       .then(json => {
+         normalizeFields(json.fields, modelDef);
+         dispatch(receiveIndexedFields(modelDef, json.fields));
+       });
   };
 };
 
@@ -59,3 +61,17 @@ export const saveModel = (model) => {
   };
 };
 
+const normalizeFields = (fields, modelDef) => {
+  let field = new Schema('fields', { idAttribute: field => {
+    console.log(field);
+    createId(modelDef, field.id);
+  }});
+  let x = normalize(fields, arrayOf(field));
+  return fields;
+};
+
+const createId = (modelDef, id) => {
+  id = modelDef + '_' + id;
+  console.log(id);
+  return id;
+};

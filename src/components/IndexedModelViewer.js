@@ -2,6 +2,7 @@ import React, { PropTypes as PT } from 'react';
 import IPT from 'react-immutable-proptypes';
 import { Table, Td, Tr } from 'reactable';
 import EditButton from './EditButton';
+import classes from 'styles/loader.scss';
 
 export default class IndexedModelViewer extends React.Component {
 
@@ -34,6 +35,6 @@ export default class IndexedModelViewer extends React.Component {
         </Table>
       );
     }
-    return <div className='loader'> Loading</div>;
+    return <div className={classes.spinner}/>;
   }
 }

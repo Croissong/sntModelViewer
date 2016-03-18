@@ -110,7 +110,11 @@ webpackConfig.module.loaders = [{
   loader: 'babel',
   query: {
     cacheDirectory: true,
-    plugins: ['transform-runtime', ['extensible-destructuring', {'mode': 'optout'}]],
+    plugins: [
+      'transform-runtime',
+      ['extensible-destructuring', {'mode': 'optout'}],
+      'transform-decorators-legacy'
+    ],
     presets: ['es2015', 'react', 'stage-0'],
     env: {
       development: {

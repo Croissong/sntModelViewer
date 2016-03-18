@@ -63,9 +63,6 @@ export default createReducer({
   [formActions.CHANGE]: (state, action) => fieldChangeHandler(state, action.model, action.value),
   [formActions.SET_VALIDITY]: (state, action) => {
     console.log(action);
-    let x = action;
-    return setValidityHandler(state,
-                              action.model,
-                              action.validity.valid);
+    return state;
   }
 }, initialState);

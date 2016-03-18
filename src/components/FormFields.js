@@ -2,8 +2,7 @@ import { Field } from 'react-redux-form';
 import React, { PropTypes as PT } from 'react';
 import classes from 'styles/_base.scss';
 
-export default function FormFields (props) {
-  let {fields, validators, parsers, errors} = props;
+export default function FormFields ({fields, validators, parsers, errors}) {
   return (
     <div> {
       fields.entrySeq().map(

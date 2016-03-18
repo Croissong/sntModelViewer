@@ -25,7 +25,7 @@ const ConnectedModelDefSelection = connect(
   )
 )(ModelDefSelection);
 
-const ConnectedIndexedModelViewer = connect(
+let ConnectedIndexedModelViewer = connect(
   (state) => (
     {
       models: getIndexedFields(state),

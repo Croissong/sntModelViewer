@@ -11,7 +11,8 @@ const selectModelHandler = (state, id) => {
 export const requestIndexedFields = createAction('request indexed fields for all models of [modelDef]');
 
 const requestIndexedFieldsHandler = (state, modelDef) => {
-  return state.update('index_fetching', list => list.push(modelDef));
+  let x = state;
+  return state.update('fetching_indexed', list => list.push(modelDef));
 };
 
 export const receiveIndexedFields = createAction('receive indexed fields for all models of [modelDef]',
